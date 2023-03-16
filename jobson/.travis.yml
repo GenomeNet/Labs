@@ -1,0 +1,68 @@
+dist: xenial
+language: java
+branches:
+  only:
+  - master
+  - dev
+  - "/feature-*/"
+  - "/fix-*/"
+  - "/\\d+.\\d+.\\d+/"
+  - "/\\d+.\\d+.\\d+-staging/"
+addons:
+  apt:
+    packages:
+    - python3
+    - python3-pip
+    - python3-setuptools
+    - python3-venv
+    - nodejs
+    - docker
+before_install:
+- gem install fpm --version 1.10.0
+- pip3 install --user --upgrade pip
+- python3 -m venv venv/
+- source venv/bin/activate
+- pip3 install -r jobson-docs/requirements.txt
+script: mvn package
+env:
+  global:
+  - secure: s/YSS0GG2Vs9utbGnU8Ti+ty1BfbIPKvNsH45kICMo2W3M2yXyG4Rb9jSep4W3OQemDQC3KqSRZzkBBJgtm227/a84St6cWpw72kSiAD3krWfUNa2xTD8XzxpjCxdAlMV8PkeDZkBHnXaa+HS3HR/DjFrKllDZ76gDixdYWOcvY/FJDmQ0krsqGCtpyFheTBAItqCYpz6PIFwvGNPi81CLn+GLq3NK8jKJkgwJLyKbLuPDYRMCT5SgMtn4JtNi8w4Zo1Z8j67BZtXlGAbnBrDnRaNjUkEiniw8Hieh38ap5AGBr5leIYCF6xxDDy7+9kAb7Fg8QLYvLPjtIMOPXYJTvWgt/iLUrH2Y2C6mTnDuRJo9Iu3MX4d8jg5dtpS1OEAkEZmdbmlq0Fpc+u9gU7CuXryo3/1oUmOcdYpKHPtYfAn1K4ThPrvWoyYvp/15nd7/bl8E+SsnimN0tgJUj4J0mUaKQfuSHVDNXjlt2j09e/slFhtXaIStCG/U+p/OHKvwt1WUxJWrY6OFHM7O30HatYnkuvDSUos8STZzdxvZFOxbcX28FFRxDKH5/xuscnFCNRYfX986p6nInIXbPa9QzY+/fg/5Yo6C4D9QdeVvIh+hRgBwilIqjiH4AXI8RfGOpahldHNwSbDOhc/whCD2qTc/xCsHoXE4nGi1K5puA=
+  - secure: fyiP2ND9rEMB7ePtAGj+1Xr/JbQVRG6zblTj3pwiGtgpf9yKkikHRfQr0hlVI4uTEXfmTu8IJRW7LSXexanlPNQhuue0UPafH6yiBwukyX+w9OouT4+qN7I5P1tyCFJ9ENRM9zZ7ius7JdDPNA9pBefZmtXZqycJvgDzELafTWt21L+KfjzQplpmF2mGr7hFABowJ8uwCm3HGrxV7lWABY0UqRq4m3mPxdAf9TqkCKAnxYY4CnqM0+EdJxqUX2TpoVIC+D8FC/2jsDC8nTUslAWi9yP4YnLuhBGLQcrorSduecBeHoUjSKvCRQxICjg3jS/qdCOmos4LAF4stWJaGRH9kpIGtAEs2YpenyNibv5Kr3WIBO3TvgsJNRlWF1U8j0/bKQrvQpfBs9axTELmjerLW0oiv8MCMv5Phd5/7yJF4NYgiTJYyKCQsw792gkHwX5CCDx+5+hAnXkq7kqiREJ9NdyXgAYPWE8L3fvZaYvXgTg/743wL7C4HlscaZ1Vzu8I9yTgRV2J1zg8TYG8IfM1Hrw/myvfV0U/3O+vhhMhyj10/7EAnASr/pZSEQoWjbDxi/LYWIQdNrWum5+9AY6exHqgq666Umd4J+IcIa1F9ybwZRwVJh7YFeN+15NUf1xcSPVXWMDm/JuqoLsmxr43MTuka3WXj70nGnxOH6Q=
+deploy:
+  provider: releases
+  skip_cleanup: true
+  file:
+  - jobson/target/jobson-${TRAVIS_TAG}.jar
+  - jobson-swagger/target/jobson-swagger-${TRAVIS_TAG}.json
+  - jobson-ui/target/jobson-ui-${TRAVIS_TAG}.tar.gz
+  - jobson-docs/target/jobson-docs-${TRAVIS_TAG}.tar.gz
+  - jobson-nix/target/jobson-nix-${TRAVIS_TAG}.tar.gz
+  - jobson-deb/target/jobson_${TRAVIS_TAG}_all.deb
+  on:
+    repo: adamkewley/jobson
+    tags: true
+  api-key:
+    secure: fQfCOpNXj3AkOij+PlYxCREamrPja2ttGspZTk1yAjoLGzZPPtgvYGj6KVx4sPz+velP8CK2X32NC+4EvgbJKHqx8oERvUB5uK8roohBjz92dnC8Sndy5yiGut3eKFtReHZZmUfNHPXMn0nWd2JdjsBXIm6syLt9wBjXlDN8izwPNHUemJr111e8mygtibmrSD98Wt/nXffi/SsSPhuabrfkQ3MQXNg5WbY9+Gk0xsnOskQjwBMvx4NVzk6TpIpBxIHg6c/dV338aI1h7PrJvK/XD0FPdOjelBDyAZhWbSf7sPwBFyXcv2cbHgEv/cCPZpqpXT0IEghV0LAUkn4+7bjxr/QcUhckXmEzNKhdX6Gttn0jxDLKxljl3WOMeMxkcjhNcgTfBN75/MIzwYZgiQJOV/IHeYG5U0iuXmuvEZCn0FgSpVh2OgGXqhtJJ+2F5ndbRft3Ib1qMn7k0oB8JPEH2Tx2dkGnWhr+EvpHo4ub7R88t2OWcLAHh/LuRUOKASCpxL7uzcazoXh7sQHEyz++9DxUIHxtKqoqjM9whQ3DSi1s6amQcAnNBNbHarph+2fD8Iz5sAW9kohLr2XSjLgtQRQKCCkg0hq9NfF7ICRG4H8Em+xmiVij7ai7UUQ3xYLKxgHYQwl4WFU5ARUxIPTt8JYHkhZvO6pN8E6XEzo=
+after_deploy: |
+  set -e
+
+  git config --global user.email "travis@travis-ci.org"
+  git config --global user.name "Travis CI"
+
+  git fetch origin gh-pages:gh-pages
+  git worktree add gh-pages gh-pages
+
+  rm -rf gh-pages/*
+  tar xfz jobson-docs/target/jobson-docs-${TRAVIS_TAG}.tar.gz
+  mv jobson-docs-${TRAVIS_TAG}/* gh-pages
+
+  cd gh-pages
+  touch .nojekyll
+  git add -A
+  git commit -m "Updated docs for ${TRAVIS_TAG}"
+  git remote add origin-pages https://${GH_TOKEN}@github.com/adamkewley/jobson.git > /dev/null 2>&1
+  git push origin-pages gh-pages
+
+  docker login --username "adamkewley" --password "$DOCKER_PASSWORD"
+  docker push adamkewley/jobson:${TRAVIS_TAG}
+  docker push adamkewley/jobson:latest
