@@ -23,6 +23,7 @@ confirm that `jobson -h` is running
 ```bash
 git clone https://github.com/GenomeNet/Labs
 cd Labs
+sudo cp jobson-ui /etc/nginx/sites-available/jobson-ui
 sudo cp -r www/jobson-ui /var/www/jobson-ui
 cd /etc/nginx/sites-enabled
 sudo cp jobson-ui /etc/nginx/sites-available/jobson-ui
