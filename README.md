@@ -12,7 +12,7 @@ ssh -i Key.pem ubuntu@IP.com
 
 ```
 sudo apt-get update
-sudo apt-get install -y default-jre nginx
+sudo apt-get install -y default-jre nginx podman
 wget https://github.com/adamkewley/jobson/releases/download/1.0.13/jobson-nix-1.0.13.tar.gz
 tar xvf jobson-nix-1.0.13.tar.gz
 export PATH=$PATH:/home/ubuntu/jobson-nix-1.0.13/bin
