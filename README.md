@@ -26,10 +26,11 @@ cd Labs
 sudo cp jobson-ui /etc/nginx/sites-available/jobson-ui
 sudo cp -r www/jobson-ui /var/www/jobson-ui
 cd /etc/nginx/sites-enabled
-sudo cp jobson-ui /etc/nginx/sites-available/jobson-ui
 sudo ln -s ../sites-available/jobson-ui jobson-ui
 sudo rm default
 sudo nginx -s reload
+cd ~/Labs
+screen
 jobson serve config.yml
 ```
 
