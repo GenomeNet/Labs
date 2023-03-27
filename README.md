@@ -20,7 +20,6 @@ export PATH=$PATH:/home/ubuntu/jobson-nix-1.0.13/bin
 
 confirm that `jobson -h` is running
 
-```
 ```bash
 git clone https://github.com/GenomeNet/Labs
 cd Labs
