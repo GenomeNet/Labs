@@ -17,8 +17,7 @@ Follow the steps below to install necessary dependencies and set up GenomeNet La
 
 ```
 sudo apt-get update
-# Install Java Runtime Environment, Nginx, and Podman and python3-pip
-sudo apt-get install -y default-jre nginx podman python3-pip
+sudo apt-get install -y default-jre nginx podman python3-pip runc
 # Install Jobson
 wget https://github.com/adamkewley/jobson/releases/download/1.0.13/jobson-nix-1.0.13.tar.gz
 tar xvf jobson-nix-1.0.13.tar.gz
