@@ -42,4 +42,8 @@ screen
 jobson serve config.yml
 ```
 
+## Download containers
 
+```
+podman pull genomenet/virus
+```
