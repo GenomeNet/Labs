@@ -21,7 +21,8 @@ sudo apt-get install -y default-jre nginx podman python3-pip runc
 # Install Jobson
 wget https://github.com/adamkewley/jobson/releases/download/1.0.13/jobson-nix-1.0.13.tar.gz
 tar xvf jobson-nix-1.0.13.tar.gz
-export PATH=$PATH:/home/ubuntu/jobson-nix-1.0.13/bin
+echo "export PATH=\$PATH:/home/ubuntu/jobson-nix-1.0.13/bin" >> ~/.bashrc 
+source ~/.bashrc
 ```
 
 Confirm that Jobson is installed correctly by checking the help command `jobson -h`
@@ -52,5 +53,6 @@ podman pull genomenet/virus
 ```
 cd /home/ubuntu/Labs/tools
 ./install.py
-export PATH=$PATH:/home/ubuntu/Labs/tools
+echo "export PATH=\$PATH:/home/ubuntu/Labs/tools" >> ~/.bashrc
+source ~/.bashrc
 ```
