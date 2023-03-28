@@ -53,3 +53,12 @@ cd /home/ubuntu/Labs/tools
 echo "export PATH=\$PATH:/home/ubuntu/Labs/tools" >> ~/.bashrc
 source ~/.bashrc
 ```
+
+Auto-update containers
+
+```
+mkdir -p /home/ubuntu/sockets
+sudo chown -R ubuntu:ubuntu /home/ubuntu/sockets
+chmod 755 /home/ubuntu/sockets
+gunicorn -w 4 -b unix:/home/ubuntu/sockets/webhook.sock webhook_fcgi:app
+```

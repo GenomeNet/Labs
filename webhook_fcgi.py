@@ -1,8 +1,7 @@
 import os
 import subprocess
-from flup.server.fcgi import WSGIServer
 
-def application(environ, start_response):
+def app(environ, start_response):
     if environ['REQUEST_METHOD'] == 'POST' and environ['PATH_INFO'] == '/webhook':
         update_container()
         start_response('200 OK', [('Content-Type', 'application/json')])
@@ -12,6 +11,7 @@ def application(environ, start_response):
         return [b'Not Found']
 
 def update_container():
+    print("Update container")
     image_name = 'genomenet/virus'
     container_name = 'virus_container'
 
@@ -22,10 +22,6 @@ def update_container():
     subprocess.run(['podman', 'stop', container_name], check=False)
     subprocess.run(['podman', 'rm', container_name], check=False)
 
-    # Start a new container with the updated
     # Start a new container with the updated image
     subprocess.run(['podman', 'run', '--name', container_name, '-d', image_name])
-
-if __name__ == '__main__':
-    WSGIServer(application, bindAddress=('/home/ubuntu/sockets/webhook.sock', 0)).run()
 
