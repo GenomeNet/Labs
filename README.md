@@ -25,6 +25,7 @@ Confirm that Jobson is installed correctly by checking the help command `jobson 
 
 ```bash
 git clone https://github.com/GenomeNet/Labs
+git submodule update --init --recursive
 cd Labs
 ./update_registries_conf.sh # add docker.io to podman
 sudo cp jobson-ui /etc/nginx/sites-available/jobson-ui
