@@ -1,0 +1,28 @@
+
+name: Viral prediction
+description: Will predict if sequence origin is viral or non-viral.
+
+expectedInputs:
+
+- id: finput
+  type: string[]
+  name: FASTA file at the genome, contig or scaffold level. If the file contains multiple entries, a prediction will be made for each one.
+
+execution:
+  application: bash
+  arguments:
+  - run.sh
+  - "${toFile(toJSON(inputs.finput))}"
+  dependencies:
+  - source: run.sh
+    target: run.sh
+
+expectedOutputs:
+- id: outputFile
+  path: output/predictions.tsv
+  name: Prediction output
+  description: This file contains the probability for each FASTA entry.
+- id: outputFile2
+  path: output/predictions.h5
+  name: Binary prediction output
+  description: This file contains the raw prediction output in a binary format. See deepg.de for advice how to process this file. 
