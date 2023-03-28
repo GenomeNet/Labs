@@ -4,11 +4,7 @@ This repository provides instructions and configurations to set up GenomeNet Lab
 
 ## Info
 
-The server runs on an AWS EC2 t2.medium instance (Ubuntu 22.04.2 LTS) with a 40GB disk and belongs to the webappjobson security group. To access the server, use the provided key file:
-
-```
-ssh -i Key.pem ubuntu@IP.com
-```
+The server runs on an AWS EC2 t2.medium instance (Ubuntu 22.04.2 LTS) with a 40GB disk and belongs to the webappjobson security group.
 
 ## Installation and Configuration
 
