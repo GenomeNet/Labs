@@ -43,6 +43,8 @@ jobson serve config.yml
 
 ```
 podman pull genomenet/virus
+podman pull genomenet/sorf
+
 ```
 
 ## Intall GenomeNet tools
