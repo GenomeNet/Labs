@@ -56,7 +56,7 @@ echo "export PATH=\$PATH:/home/ubuntu/Labs/tools" >> ~/.bashrc
 source ~/.bashrc
 ```
 
-Auto-update containers
+Auto-update containers (not working yet)
 
 ```
 mkdir -p /home/ubuntu/sockets
