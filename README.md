@@ -43,6 +43,8 @@ jobson serve config.yml
 
 ```
 podman pull genomenet/virus
+podman pull genomenet/sorf
+
 ```
 
 ## Intall GenomeNet tools
@@ -54,7 +56,7 @@ echo "export PATH=\$PATH:/home/ubuntu/Labs/tools" >> ~/.bashrc
 source ~/.bashrc
 ```
 
-Auto-update containers
+Auto-update containers (not working yet)
 
 ```
 mkdir -p /home/ubuntu/sockets
