@@ -1,0 +1,24 @@
+
+name: Ambiguous nucleotide imputation model
+description: Welcome to our webserver for imputing ambiguous nucleotides in FASTA sequences. Our imputation model can be used to replace ambiguous nucleotides (denoted as N) with the most likely nucleotide sequence based on the input sequence data. To use our webserver, simply upload your FASTA file with ambiguous nucleotides using the file upload feature on our website. Our imputation model will then process your data and impute the ambiguous nucleotides with the most likely nucleotide sequence based on the information contained in your FASTA sequence. We take great care to ensure that our imputation model is both accurate and efficient, and we are confident that it will be a valuable tool for your research and analysis needs. However, it is important to note that our model is not perfect and may occasionally make mistakes. Therefore, we encourage you to interpret the results of your imputed sequence with caution and to seek additional information if necessary.
+
+expectedInputs:
+
+- id: finput
+  type: string[]
+  name: FASTA file with one entry
+
+execution:
+  application: bash
+  arguments:
+  - run.sh
+  - "${toFile(toJSON(inputs.finput))}"
+  dependencies:
+  - source: run.sh
+    target: run.sh
+
+expectedOutputs:
+- id: outputFile
+  path: output/predictions.tsv
+  name: Prediction output
+  description: This file contains the probability

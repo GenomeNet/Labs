@@ -1,6 +1,6 @@
 
-name: Viral taxnomic prediction (genus level)
-description: Will predict the most likely viral genus.
+name: Virus taxonomy model (for predicting the genus taxonomy of viruses based on genomic sequences)
+description: Welcome to our webserver for predicting the genus taxonomy of viruses based on genomic sequences using our pretrained model. Our virus taxonomy model has been trained on high quality genomes from the International Committee on Taxonomy of Viruses (ICTV), including an 'other' category, and currently achieves a balanced accuracy of 79.4% with 404 categories. Our model consists of 16 million parameters and 6 convolutional neural network (CNN) layers, and was trained on a data-center GPU for approximately 10 days to achieve convergence. We have taken great care to ensure that our model is both accurate and efficient for generating predictions. To use our webserver, simply upload your genomic sequence in FASTA format using the file upload feature on our website. Our virus taxonomy model will then process your data and generate predictions for the genus taxonomy of your virus based on its genomic sequence. We take pride in our efforts to make our virus taxonomy model accessible to the scientific community and beyond. However, it is important to note that our model is not perfect and may occasionally make mistakes. Therefore, we encourage you to interpret the results of your predictions with caution and to seek additional information if necessary.
 
 expectedInputs:
 
