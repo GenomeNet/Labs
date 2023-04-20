@@ -4,6 +4,13 @@ description: Welcome to our webserver for imputing ambiguous nucleotides in FAST
 
 expectedInputs:
 
+- id: threshold
+  type: string
+  name: Propability theshold at which imputation will occur
+  description: Expects clients to provide a singular value
+  description: This field expects clients to provide a singular value between 0 and 1 that defines the probability threshold at which the imputation will occur. If set to 1, the model will only impute ambiguous nucleotides where the prediction is 100% certain. If set to 0, the model will impute all ambiguous nucleotides. Adjusting this threshold can help balance accuracy and completeness in the imputed sequence data, and we recommend testing multiple values to find the best threshold for your specific application.
+  default: 0.5
+
 - id: finput
   type: string[]
   name: FASTA file with one entry
@@ -13,12 +20,13 @@ execution:
   arguments:
   - run.sh
   - "${toFile(toJSON(inputs.finput))}"
+  - ${inputs["threshold"]}
   dependencies:
   - source: run.sh
     target: run.sh
 
 expectedOutputs:
 - id: outputFile
-  path: output/predictions.tsv
-  name: Prediction output
-  description: This file contains the probability
+  path: output/imputed.fasta
+  name: Imputed FASTA file
+  description: The imputed.fasta file is a FASTA-formatted file that contains the original sequence data with the ambiguous nucleotides (denoted as N) replaced by the most likely nucleotide sequence based on the information contained in the input data.
