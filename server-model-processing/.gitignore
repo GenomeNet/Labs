@@ -7,7 +7,7 @@ dist/
 build/
 
 # Upload folder
-upload/
+uploads/
 
 # TypeScript specific
 *.tsbuildinfo
