@@ -150,6 +150,7 @@ export class SpecViewerComponent extends Component<SpecViewerComponentProps, Spe
     private renderExpectedInputs(): ReactElement<any> {
         return (
             <div className="ui list">
+                
                 {this.state.jobSpec.expectedInputs.map(SpecViewerComponent.renderJobExpectedInput)}
             </div>
         );

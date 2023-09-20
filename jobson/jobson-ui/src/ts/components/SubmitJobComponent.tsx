@@ -25,6 +25,7 @@ import {JobsonAPI} from "../JobsonAPI";
 export interface SubmitJobComponentProps {
     api: JobsonAPI,
     routeProps: any,
+    preselectedSpecId: string | null,  
 }
 
 export interface SubmitJobComponentState {
@@ -48,23 +49,26 @@ export class SubmitJobComponent extends React.Component<SubmitJobComponentProps,
             component: null,
         };
     }
-
     public componentDidMount(): void {
+        const preselectedSpecId = this.props.routeProps.match.params.preselectedSpecId;
+
         const initialComponent = (
             <LoadingJobSpecsState
                 api={this.props.api}
                 routeProps={this.props.routeProps}
-                onTransitionRequest={this.onTransitionRequest.bind(this)}/>
+                onTransitionRequest={this.onTransitionRequest.bind(this)}
+                preselectedSpecId={preselectedSpecId}/>
         );
-
+    
         this.onTransitionRequest(initialComponent);
     }
-
+    
     private onTransitionRequest(component: ReactElement<any>): void {
         this.setState({component});
     }
 
     public render(): null | ReactElement<any> {
+       // console.log("Preselected Spec Id in SubmitJobComponent1:", this.props.preselectedSpecId);
         return this.state.component;
     }
 }

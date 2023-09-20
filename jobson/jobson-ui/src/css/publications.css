@@ -1,0 +1,57 @@
+.cardContent {
+  flex: 1;
+  font-family: Arial, sans-serif; /* A more modern font */
+}
+
+.manuscriptImage {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 8px; /* Smooth image corners */
+}
+
+.doiTag {
+  font-size: 12px;
+  background-color: #f1f1f1;
+  padding: 5px 10px;
+  border-radius: 50px;
+  margin-left: 10px;
+  color: #333;
+}
+
+.title {
+  font-size: 1.2em;  /* Smaller heading */
+  font-weight: 600;  /* Bold */
+}
+
+.description {
+  line-height: 1.5; /* Improved readability */
+}
+
+.authorList {
+  font-style: italic;  /* Stylish authors */
+}
+
+.btn {
+  -webkit-text-size-adjust: 100%;
+  border: 0 solid #e5e7eb;
+  box-sizing: border-box;
+  font-family: inherit;
+  margin: 0;
+  text-transform: none;
+  font-weight: 400;
+  background-color: transparent;
+  align-items: center;
+  border-radius: .5rem;
+  border-width: 1px;
+  display: inline-flex;
+  justify-content: center;
+  padding: .25rem .75rem;
+  user-select: none;
+  white-space: nowrap;
+  border-color: rgb(229 231 235);
+  color: rgb(31 41 55);
+  width: 100%;
+  cursor: pointer;
+  font-size: .875rem;
+  line-height: 1.25rem;
+}

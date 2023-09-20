@@ -8,11 +8,13 @@
     "jsx": "react",
     "moduleResolution": "node",
     "rootDir": "src/ts",
-
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": false,
-    "strictNullChecks": false
+    "strictNullChecks": false,
+    "skipLibCheck": true
   },
   "exclude": [
     "node_modules"

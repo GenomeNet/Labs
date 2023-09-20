@@ -18,9 +18,10 @@
  */
 
 import * as React from "react";
-import {NavLink} from "react-router-dom";
-import {JobsonAPI} from "../JobsonAPI";
-import {ReactElement} from "react";
+import { NavLink } from "react-router-dom";
+import { JobsonAPI } from "../JobsonAPI";
+import { ReactElement } from "react";
+import "../../css/NavbarComponent.css";
 
 export interface NavbarComponentProps {
     api: JobsonAPI,
@@ -30,6 +31,8 @@ export interface NavbarComponentState {
     isLoadingUsername: boolean,
     errorLoadingUsername: boolean,
     username: null | string,
+    supportedModels: number,
+    supportedDatasets: number
 }
 
 export class NavbarComponent extends React.Component<NavbarComponentProps, NavbarComponentState> {
@@ -51,8 +54,8 @@ export class NavbarComponent extends React.Component<NavbarComponentProps, Navba
 
     private static renderUsername(username: string): ReactElement<any> {
         return (
-	<div>
-	</div>
+            <div>
+            </div>
         );
     }
 
@@ -64,6 +67,8 @@ export class NavbarComponent extends React.Component<NavbarComponentProps, Navba
             isLoadingUsername: true,
             errorLoadingUsername: false,
             username: null,
+            supportedModels: 2,
+            supportedDatasets: 1
         };
     }
 
@@ -77,6 +82,8 @@ export class NavbarComponent extends React.Component<NavbarComponentProps, Navba
             isLoadingUsername: true,
             errorLoadingUsername: false,
             username: null,
+            supportedModels: this.state.supportedModels,
+            supportedDatasets: this.state.supportedDatasets
         };
 
         const afterUpdate = () => {
@@ -108,19 +115,48 @@ export class NavbarComponent extends React.Component<NavbarComponentProps, Navba
             <div className="ui secondary pointing menu">
                 <div className="ui container">
 
-					<span className="header item">
-						GenomeNet
-					</span>
+                    <span className="header item" style={{ display: 'flex', alignItems: 'center' }}>
+                        <img
+                            src="/public/logo.png"
+                            alt="logo"
+                            style={{
+                                marginRight: '10px',
+                                width: '50px',
+                                height: 'auto'
+                            }}
+                        />
+                        <div style={{ display: 'block' }}>
+                        <span className="genome-net-text">GenomeNet</span>
+                            <div
+                                style={{
+                                    fontStyle: 'italic',
+                                    color: '#b0b0b0',
+                                    fontWeight: 'lighter'
+                                }}
+                            >
+                                Deep Learning Resources for Genomics
+                            </div>
+                        </div>
+                    </span>
 
                     <NavLink to="/submit" className="item" activeClassName="active">
-                        Submit Job
+                        Hosted inference
                     </NavLink>
 
-                    <div className="right menu">
-                        <em className="item">
-                            {this.tryRenderUser()}
-                        </em>
-                    </div>
+                    <NavLink to="/model" className="item" activeClassName="active">
+                        Models
+                        <div className="number-tag">
+                            {this.state.supportedModels}
+                        </div>
+                    </NavLink>
+
+                    <NavLink to="/dataset" className="item" activeClassName="active">
+                        Datasets
+                        <div className="number-tag">
+                            {this.state.supportedDatasets}
+                        </div>
+                    </NavLink>
+
                 </div>
             </div>
         );
@@ -136,3 +172,4 @@ export class NavbarComponent extends React.Component<NavbarComponentProps, Navba
         }
     }
 }
+

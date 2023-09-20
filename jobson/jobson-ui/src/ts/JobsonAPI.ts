@@ -35,7 +35,6 @@ export class JobsonAPI {
     private readonly http: HttpService;
     private readonly apiPrefix: string;
 
-
     constructor(httpService: HttpService, apiPrefix: string) {
         this.http = httpService;
         this.apiPrefix = apiPrefix;
@@ -55,7 +54,6 @@ export class JobsonAPI {
             .get(this.urlToJobSpecSummaries())
             .then(resp => JSON.parse(resp).entries);
     }
-
 
     urlToJobSpec(id: string): string {
         return `${this.apiPrefix}/v1/specs/${id}`;
@@ -90,7 +88,6 @@ export class JobsonAPI {
             .post(this.urlToSubmitJobRequest(), jobRequest)
             .then(resp => JSON.parse(resp));
     }
-
 
     urlToGetJobDetailsById(jobId: string): string {
         return `${this.apiPrefix}/v1/jobs/${jobId}`;
@@ -196,4 +193,5 @@ export class JobsonAPI {
         const url = Helpers.makeWebsocketPath(`${this.apiPrefix}/v1/jobs/events`);
         return Helpers.createObservableSocket(url).pipe(map(e => JSON.parse(e.data)));
     }
+
 }

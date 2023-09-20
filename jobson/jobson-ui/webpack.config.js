@@ -15,13 +15,14 @@ module.exports = {
 		"jobson-ui-js": './src/ts/index.tsx'
 	},
 	output: {
-		path: path.resolve(__dirname, 'target/site'),
+		path: path.resolve(__dirname, 'target2/site'),
 	},
 
 
 	resolve: {
 		extensions: ['.ts', '.tsx', '.js'],
 	},
+
 
 	module: {
 		rules: [
@@ -51,7 +52,10 @@ module.exports = {
 	},
 
 	plugins: [
-		new HtmlWebpackPlugin({template: './src/html/index.html'}),
-		new CopyWebpackPlugin(["src/resources/config.json"]),
-	],
+        new HtmlWebpackPlugin({template: './src/html/index.html'}),
+        new CopyWebpackPlugin([
+            { from: 'src/resources/config.json', to: 'config.json' },
+            { from: 'public', to: 'public' }  // Copies all files from `public` to `target2/site/public`
+        ]),
+    ],
 };

@@ -31,6 +31,7 @@ export interface LoadingJobSpecsStateProps {
 	api: JobsonAPI,
 	routeProps: any,
 	onTransitionRequest: (el: ReactElement<any>) => void,
+	preselectedSpecId: string | null;  // Add this line
 }
 
 export interface LoadingJobSpecsStateState {
@@ -139,12 +140,14 @@ export class LoadingJobSpecsState extends React.Component<LoadingJobSpecsStatePr
 	}
 
 	transitionToLoadingExistingJob(jobSpecs: APIJobSpecSummary[], existingJobId: string): void {
+		
 		const nextComponentProps = {
 			api: this.props.api,
 			routeProps: this.props.routeProps,
 			onTransitionRequest: this.props.onTransitionRequest,
 			jobSpecs: jobSpecs,
 			existingJobId: existingJobId,
+			preselectedSpecId: this.props.preselectedSpecId,
 		};
 		const loadExistingJobComponent =
 			React.createElement(LoadExistingJobRequestState, nextComponentProps, null);
@@ -160,10 +163,11 @@ export class LoadingJobSpecsState extends React.Component<LoadingJobSpecsStatePr
 			jobSpecs: jobSpecs,
 			partialJobRequest: LoadingJobSpecsState.createBlankPartialJobRequest(),
 			specId: null,
+			preselectedSpecId: this.props.preselectedSpecId,
 		};
 		const loadingJobSpecComponent =
 			React.createElement(LoadingJobSpecState, nextComponentProps, null);
-
+	
 		this.props.onTransitionRequest(loadingJobSpecComponent);
 	}
 

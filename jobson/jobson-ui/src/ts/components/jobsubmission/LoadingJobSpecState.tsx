@@ -33,6 +33,7 @@ export interface LoadingJobSpecStateProps {
     jobSpecs: APIJobSpecSummary[];
     partialJobRequest: any;
     specId: string | null;
+    preselectedSpecId: string | null;  // Add this line
 }
 
 export interface LoadingJobSpecStateState {
@@ -63,19 +64,18 @@ export class LoadingJobSpecState extends Component<LoadingJobSpecStateProps, Loa
 
     public constructor(props: LoadingJobSpecStateProps, context: any) {
         super(props, context);
-
+    
         const routeParams = Helpers.extractParams(this.props.routeProps.location.search);
-
+    
         this.state = {
-            selectedSpecId: props.specId || routeParams["spec"] || props.jobSpecs[0].id,
+            selectedSpecId: props.specId || props.preselectedSpecId || routeParams["spec"] || props.jobSpecs[0].id,  // Include props.preselectedSpecId
             isLoading: true,
             loadingError: null,
         };
     }
-
-
+    
     public componentDidMount(): void {
-        this.tryLoadJobSpec(this.state.selectedSpecId);
+        this.tryLoadJobSpec(this.state.selectedSpecId || this.props.preselectedSpecId);  // Include this.props.preselectedSpecId
     }
 
     private tryLoadJobSpec(specId: string): void {
@@ -105,6 +105,7 @@ export class LoadingJobSpecState extends Component<LoadingJobSpecStateProps, Loa
             jobSpecs: this.props.jobSpecs,
             partialJobRequest: updatedJobRequest,
             jobSpec: jobSpec,
+            preselectedSpecId: null, //this.props.preselectedSpecId,
         };
 
         const jobEditorComponent = React.createElement(EditingJobRequestState, nextComponentProps, null);

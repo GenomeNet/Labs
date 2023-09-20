@@ -38,52 +38,49 @@ export interface EditingJobRequestStateProps {
     jobSpecs: APIJobSpecSummary[],
     partialJobRequest: any,
     jobSpec: APIJobSpec,
+    preselectedSpecId: string | null;  // Add this line
 }
 
 export interface EditingJobRequestStateState {
     reqOrErrors: JobRequestEditorUpdate,
     isSubmittingJob: boolean,
     jobSubmissionError: null | APIErrorMessage,
+    isSubmitEnabled: boolean,
 }
 
-/**
- * State that occurs when the a job spec and (potentially) job request
- * pair is loaded and the user is expected to edit the request pre-submission.
- *
- * The job request may have been loaded from an existing request. It is this
- * component's responsibility to:
- *
- * - Handle job spec changes (e.g. client selects different spec)
- * - Show job submission validation errors
- * - Show job editing errors
- * - Perform job submission, when the editor produces a valid job request
- */
 export class EditingJobRequestState extends Component<EditingJobRequestStateProps, EditingJobRequestStateState> {
 
+    setIsSubmitEnabled(isEnabled: boolean) {
+        this.setState({ isSubmitEnabled: isEnabled });
+    }
+    
     private static renderReqError(error: string, key: string): ReactElement<any> {
         return <li key={key}>{error}</li>;
     }
 
-
     public constructor(props: EditingJobRequestStateProps, context: any) {
         super(props, context);
-
+    
         this.state = {
             reqOrErrors: JobRequestEditorUpdate.errors([]),
             isSubmittingJob: false,
             jobSubmissionError: null,
+            isSubmitEnabled: false, 
         };
     }
 
-
     public render(): ReactElement<any> {
+        const setIsSubmitEnabled = this.setIsSubmitEnabled.bind(this);
+
+        console.log("Preselected Spec Id in EditingJobRequestState:", this.props.preselectedSpecId);
+
         return (
             <div>
                 <JobSpecSelectorComponent
                     selectedSpecId={this.props.jobSpec.id}
                     specs={this.props.jobSpecs}
-                    onSelectedSpecIdChanged={this.onSelectedSpecIdChanged.bind(this)}/>
-
+                    onSelectedSpecIdChanged={this.onSelectedSpecIdChanged.bind(this)}
+                    preselectedSpecId={this.props.preselectedSpecId} />
                 <br/>
 
                 {this.state.jobSubmissionError ? this.renderJobSubmissionError() : null}
@@ -93,6 +90,7 @@ export class EditingJobRequestState extends Component<EditingJobRequestStateProp
                     routeProps={this.props.routeProps}
                     spec={this.props.jobSpec}
                     suggestedJobRequest={this.props.partialJobRequest}
+                    setIsSubmitEnabled={setIsSubmitEnabled}
                     onReqOrErrors={this.onReqOrErrors.bind(this)}/>
 
                 {this.state.reqOrErrors.accept({
@@ -120,6 +118,7 @@ export class EditingJobRequestState extends Component<EditingJobRequestStateProp
             jobSpecs: this.props.jobSpecs,
             partialJobRequest: req,
             specId: newId,
+            preselectedSpecId: null,//this.props.preselectedSpecId,  
         };
         const loadJobSpecComponent = React.createElement(LoadingJobSpecState, props, null);
 
@@ -162,12 +161,13 @@ export class EditingJobRequestState extends Component<EditingJobRequestStateProp
         return (
             <button className="ui primary button"
                     style={style}
-                    onClick={this.onUserClickedSubmit.bind(this)}>
-                Submit Job
+                    onClick={this.onUserClickedSubmit.bind(this)}
+                    disabled={!this.state.isSubmitEnabled}>
+                Compute
             </button>
         );
     }
-
+    
     private renderDownloadRequestButton(): ReactElement<any> {
         return (
             <button className="ui tiny compact basic button"

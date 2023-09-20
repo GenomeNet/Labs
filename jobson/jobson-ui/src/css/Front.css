@@ -1,0 +1,14 @@
+.info-section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 25px;
+    background-color: rgb(11, 15, 25);
+    color: white;
+    align-items: center;
+    overflow: hidden;
+    padding-top: 5rem;
+    text-align: center;
+    font-family: Source Sans Pro, ui-sans-serif, system-ui;
+}

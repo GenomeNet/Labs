@@ -26,6 +26,16 @@ import {JobsonAPI} from "./JobsonAPI";
 import {APIRestLink} from "./apitypes/APIRestLink";
 import {APIErrorMessage} from "./apitypes/APIErrorMessage";
 
+//interface MSNavigator extends Navigator {
+//    msSaveOrOpenBlob?: (blob: Blob, defaultName?: string) => boolean;
+//}
+
+interface MSNavigator {
+    msSaveOrOpenBlob?: (blob: any, defaultName?: string) => boolean;
+}
+
+declare var navigator: MSNavigator;
+
 export class Helpers {
 
     public static promptUserToDownloadAsJSON(obj: any): void {
@@ -36,8 +46,8 @@ export class Helpers {
 
     public static promptUserToDownload(blob: Blob, fileName: string): void {
         // If it's shitty IE
-        if (window.navigator.msSaveOrOpenBlob) {
-            window.navigator.msSaveOrOpenBlob(blob, fileName);
+        if (navigator.msSaveOrOpenBlob) {
+            navigator.msSaveOrOpenBlob(blob, fileName);
         } else {
             const blobUrl = URL.createObjectURL(blob);
 

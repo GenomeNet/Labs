@@ -153,19 +153,6 @@ export class JobDetailsComponent extends Component<JobDetailsComponentProps, Job
         return (
             <div className="segment">
                 <div className="ui grid">
-                    <div className="twelve wide column">
-                        <div className="ui breadcrumb">
-				Job ID
-                            <div className="divider">
-                                :
-                            </div>
-                            <div className="active section">
-                                <h1>
-                                    {this.props.params.id}
-                                </h1>
-                            </div>
-                        </div>
-                    </div>
                     <div className="four wide column" style={{"textAlign": "right"}}>
                         {this.renderConnectionButton()}
                     </div>
@@ -224,23 +211,28 @@ export class JobDetailsComponent extends Component<JobDetailsComponentProps, Job
                         {Helpers.mapKvToArray((k, v) => this.renderDetailHeader(k, v), this.detailHeaders)}
                     </div>
                 </div>
-
-                {Helpers.renderJobActionsWithoutViewBtn(this.props.api, this.props.routeProps, this.state.job.id, this.state.job._links)}
-
-
-                <div className="ui top tabular menu">
-                    {this.renderTabHeaders()}
-                </div>
-
-                <div style={{marginBottom: "2em"}}>
-                    {this.tabs[this.state.selectedTabIdx].renderer()}
-                </div>
+    
+                {this.renderOutputs()}
             </div>
         );
     }
 
+
+private renderOutputs(): ReactElement<any> {
+    if (this.state.job && this.state.job._links && this.state.job._links["outputs"]) {
+        return (
+            <JobOutputsViewer jobChangesSubject={this.state.jobChangesSubject}
+                              jobId={this.props.params.id}
+                              api={this.props.api}/>
+        );
+    } else {
+        return null;
+    }
+}
+
     private get detailHeaders(): { [k: string]: () => ReactElement<any> | string } {
         return {
+            "Job ID": () => this.props.params.id,
             "Submitted": () => {
                 return <TimeAgo date={this.state.job.timestamps[0].time} />;
             },
@@ -248,7 +240,6 @@ export class JobDetailsComponent extends Component<JobDetailsComponentProps, Job
                 return (
                     <div>
                         {Helpers.renderStatusField(this.getLatestStatus().status)}
-                        (<TimeAgo date={this.getLatestStatus().time}/>)
                     </div>
                 );
             },

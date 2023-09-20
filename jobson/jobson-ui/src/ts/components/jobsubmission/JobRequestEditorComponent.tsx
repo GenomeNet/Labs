@@ -35,6 +35,7 @@ export interface JobRequestEditorComponentProps {
 	spec: APIJobSpec;
 	suggestedJobRequest: any;
 	onReqOrErrors: (update: JobRequestEditorUpdate) => void,
+	setIsSubmitEnabled?: (isEnabled: boolean) => void;
 }
 
 export interface JobRequestEditorComponentState {
@@ -116,6 +117,7 @@ export class JobRequestEditorComponent extends Component<JobRequestEditorCompone
 				suggestedValue={suggestedValue}
 				expectedInput={expectedInput}
 				onJobInputUpdate={this.onJobInputUpdate.bind(this, expectedInput.id)}
+				setIsSubmitEnabled={this.props.setIsSubmitEnabled}
 				key={"SPEC_" + this.props.spec.id + "_INPUT_" + expectedInput.id} />
 		);
 	}

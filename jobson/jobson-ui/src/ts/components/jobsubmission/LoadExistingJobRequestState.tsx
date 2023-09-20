@@ -33,6 +33,7 @@ export interface LoadExistingJobRequestStateProps {
     onTransitionRequest: (el: ReactElement<any>) => void;
     jobSpecs: APIJobSpecSummary[];
     existingJobId: string;
+    preselectedSpecId: string | null;  // Add this line
 }
 
 export interface LoadExistingJobRequestStateState {
@@ -142,6 +143,7 @@ export class LoadExistingJobRequestState extends React.Component<LoadExistingJob
                 jobSpecs: this.props.jobSpecs,
                 partialJobRequest: copiedJobRequest,
                 jobSpec: this.state.currentSpec,
+                preselectedSpecId: this.props.preselectedSpecId, 
             };
 
             const jobEditorComponent =

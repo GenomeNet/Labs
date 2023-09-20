@@ -27,6 +27,12 @@ import {NavbarComponent} from "./NavbarComponent";
 import {SubmitJobComponent} from "./SubmitJobComponent";
 import {APIErrorMessage} from "../apitypes/APIErrorMessage";
 import {Component} from "react";
+import { ModelCardComponent } from "./ModelCardComponent";
+import ModelDetailsComponent from './ModelDetailsComponent';
+import { DatasetCardComponent } from "./DatasetCardComponent";
+import DatasetDetailsComponent from './DatasetDetailsComponent';
+import { PublicationPage } from "./PublicationPage";
+import ModelUploadComponent from "./ModelUploadComponent";
 
 export interface AppComponentProps {
 }
@@ -40,7 +46,6 @@ export interface AppComponentState {
 }
 
 export class AppComponent extends Component<AppComponentProps, AppComponentState> {
-
     static renderConfigLoadingScreen() {
         return (
             <div className="ui active dimmer">
@@ -59,13 +64,15 @@ export class AppComponent extends Component<AppComponentProps, AppComponentState
                         <div className="ten wide column">
                             <h4 className="ui inverted header">A deep neural network for genomic modelling, semi-supervised classification and imputation</h4>
                             <p>
-The GenomeNet project is a BMBF funded joint research enterprise of the Helmholtz Centre for Infection Research and the University of Munich with close collaboration with the Harvard T.H. Chan School of Public Health. In this project we aim to develop customized deep learning network architectures which are particularly suited for modeling of large nucleotide sequences. These networks will then be employed on bacterial, viral and human genomes with the goal to understand the complex structures underlying the code of life. This work is funded by the Federal Ministry of Education and Research (031L0199A).
+The GenomeNet project is a BMBF funded joint research enterprise of the Helmholtz Centre for Infection Research and the University of Munich.
                             </p>
                         </div>
                         <div className="six wide column">
                             <div className="ui inverted link list">
                                 <a className="item" href="https://github.com/genomenet">Github</a>
                                 <a className="item" href="mailto:philipp.muench@helmholtz-hzi.de">Contact</a>
+                                <a className="item" href="https://github.com/GenomeNet/Labs/blob/main/Datenschutzerklaerung.md">Datenschutzerklärung</a>
+                                <a className="item" href="https://github.com/GenomeNet/Labs/blob/main/Impressum.md">Impressum</a>
                             </div>
                         </div>
                     </div>
@@ -196,14 +203,17 @@ The GenomeNet project is a BMBF funded joint research enterprise of the Helmholt
         return (
             <main className="ui container" style={{marginBottom: "1em"}}>
                 <Switch>
-                    <Route path="/submit"
-                           render={props => <SubmitJobComponent api={this.state.api} routeProps={props}/>}/>
-                    <Route path="/jobs/:id"
-                           render={props => <JobDetailsComponent params={props.match.params} api={this.state.api} routeProps={props}/>}/>
-                    <Redirect from={"/jobs"} to={"/"}/>
-		    <Redirect from={"/"} to={"/submit"}/>
+                    <Route path="/upload-model" render={props => <ModelUploadComponent />} />
+                    <Route path="/submit/:preselectedSpecId?"render={props => {const preselectedSpecId = props.match.params.preselectedSpecId;return <SubmitJobComponent api={this.state.api} preselectedSpecId={preselectedSpecId} routeProps={props}/>}}/>
+                    <Route path="/publications" render={props => <PublicationPage />} />
+                    <Route path="/model/:modelId" render={props => <ModelDetailsComponent {...props}/>} />
+                    <Route path="/model" render={props => <ModelCardComponent api={this.state.api} routeProps={props}/>}/>
+                    <Route path="/dataset/:datasetId" render={props => <DatasetDetailsComponent {...props}/>} />
+                    <Route path="/dataset" render={props => <DatasetCardComponent api={this.state.api} routeProps={props}/>}/>
+                    <Route path="/jobs/:id" render={props => <JobDetailsComponent params={props.match.params} api={this.state.api} routeProps={props}/>}/>
+                    <Redirect from={"/"} to={"/submit"}/>
                 </Switch>
             </main>
         );
     }
-}
+}    

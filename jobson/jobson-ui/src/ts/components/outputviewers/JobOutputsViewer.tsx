@@ -200,7 +200,7 @@ export class JobOutputsViewer extends Component<JobOutputsViewerProps, JobOutput
             (jobOutput.metadata && jobOutput.metadata.embed) ?
                 <embed className="ui image" src={this.props.api.buildAPIPathTo(jobOutput.href)}/> :
                 null;
-
+    
         return JobOutputsViewer.renderJobOutput({
             title: jobOutput.name || jobOutput.id,
             description: jobOutput.description || null,
@@ -208,4 +208,6 @@ export class JobOutputsViewer extends Component<JobOutputsViewerProps, JobOutput
             viewer: viewer,
         });
     }
+
+  
 }
