@@ -1,0 +1,1126 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "description" : "Top-level resource for v1 API, which exposes sub-resources (jobs, specs, etc.)"
+  },
+  "paths" : {
+    "/" : {
+      "get" : {
+        "operationId" : "get",
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/APIRootResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/jobs/{job-id}/abort" : {
+      "post" : {
+        "summary" : "Abort a running job",
+        "description" : "Abort a job, stopping it or removing it from the job execute. The job's status should immediately change to aborting. However, full job abortion is not guaranteed to be immediate. This is because the underlying job may take time to close gracefully or because the system itself has a short delay before forcibly killing the job outright.",
+        "operationId" : "abortJob",
+        "parameters" : [ {
+          "name" : "job-id",
+          "in" : "path",
+          "description" : "ID of the job to abort",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/json" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v1/jobs/{job-id}/stdout" : {
+      "get" : {
+        "summary" : "Get a job's standard output",
+        "description" : "Get a job's standard output, if available. A job that has not yet started will not have a standard output and, therefore, this method will return a 404. There is no guarantee that all running/finished jobs will have standard output data. This is because administrative and cleanup routines may dequeue a job's output in order to save space on the server. ",
+        "operationId" : "fetchJobStdoutById",
+        "parameters" : [ {
+          "name" : "job-id",
+          "in" : "path",
+          "description" : "ID of the job to get stdout for",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/octet-stream" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v1/jobs/{job-id}/stderr" : {
+      "get" : {
+        "summary" : "Get the job's standard error",
+        "description" : "Get the job's standard error, if available. A job that has not yet started will not have a standard error and, therefore, this method will return a 404. There is no guarantee that all running/finished jobs will have standard error data. This is because administrative and cleanup routines may dequeue a job's output in order to save space on the server.",
+        "operationId" : "fetchJobStderrById",
+        "parameters" : [ {
+          "name" : "job-id",
+          "in" : "path",
+          "description" : "ID of the job to get stderr for",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/octet-stream" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v1/jobs/{job-id}/spec" : {
+      "get" : {
+        "summary" : "Get the spec the job was submitted against",
+        "description" : "Get the spec the job was submitted against. Note: This returns the spec as it was when the job was submitted. Any subsequent updates to the spec will not be in the spec returned by this API call.",
+        "operationId" : "fetchJobSpecJobWasSubmittedAgainst",
+        "parameters" : [ {
+          "name" : "job-id",
+          "in" : "path",
+          "description" : "ID of the job to get the spec for",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/APIJobSpec"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/jobs/{job-id}/inputs" : {
+      "get" : {
+        "summary" : "Get the job's inputs",
+        "description" : "Get the inputs that were supplied when the job was submitted.",
+        "operationId" : "fetchJobInputs",
+        "parameters" : [ {
+          "name" : "job-id",
+          "in" : "path",
+          "description" : "ID of the job to get inputs for",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "additionalProperties" : {
+                    "$ref" : "#/components/schemas/JsonNode"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/jobs/{job-id}/outputs" : {
+      "get" : {
+        "summary" : "Get the outputs produced by the job",
+        "description" : "Gets all the outputs produced by the job. If the job has not *written* any outputs (even if specified) then an empty map is returned. If the job does not exist, a 404 is returned",
+        "operationId" : "fetchJobOutputs",
+        "parameters" : [ {
+          "name" : "job-id",
+          "in" : "path",
+          "description" : "ID of the job to get the outputs for",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/APIJobOutputCollection"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/jobs/{job-id}/outputs/{output-id}" : {
+      "get" : {
+        "summary" : "Get an output produced by the job",
+        "description" : "Gets an output produced by the job. If the job has not written this output, of it it has been subsequently deleted, a 404 shall be returned",
+        "operationId" : "fetchJobOutput",
+        "parameters" : [ {
+          "name" : "job-id",
+          "in" : "path",
+          "description" : "ID of the job to get the output for",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "output-id",
+          "in" : "path",
+          "description" : "ID of the output",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/json" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v1/jobs/{job-id}" : {
+      "get" : {
+        "summary" : "Get details of a job managed by the system.",
+        "operationId" : "getJobDetailsById",
+        "parameters" : [ {
+          "name" : "job-id",
+          "in" : "path",
+          "description" : "The job's ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Job details found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/APIJobDetails"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The job could not be found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/APIErrorMessage"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Client not authorized to request job details",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/APIErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Delete a job from the system",
+        "description" : "Deletes a job from the system, removing **all** job data. Running jobs are aborted before deletion.",
+        "operationId" : "deleteJob",
+        "parameters" : [ {
+          "name" : "job-id",
+          "in" : "path",
+          "description" : "The job's ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "integer",
+                  "format" : "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/jobs" : {
+      "get" : {
+        "summary" : "Retrieve jobs managed by the system.",
+        "description" : "Gets *some* of the jobs managed by the system. The response does not necessarily contain *all* the jobs managed by the system because pagination and client permissions may hide entries. ",
+        "operationId" : "getJobs",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "description" : "The page number (0-indexed)",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }, {
+          "name" : "page-size",
+          "in" : "query",
+          "description" : "The number of entries a response page should contain. Max page size is 20",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }, {
+          "name" : "query",
+          "in" : "query",
+          "description" : "Client query string",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Entries returned",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/APIJobDetailsCollection"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Submit a new job",
+        "description" : "Attempt to submit a new job to the system. The system will check the job against the job spec specified in the request. If it does not match, the request will be immediately rejected by the server. Otherwise, the request will be immediately accepted by the server. Note: the server accepting the job is only indicates that the request matches the job spec. It does not guarantee that the underlying job will complete successfully.",
+        "operationId" : "submitJob",
+        "requestBody" : {
+          "description" : "The job request",
+          "content" : {
+            "*/*" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/APIJobRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Job request accepted",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/APIJobCreatedResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid or malformed job request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/APIErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/specs" : {
+      "get" : {
+        "summary" : "Get summaries of the job specs exposed by the system",
+        "description" : "Returns an object that contains summaries of *some* of the job specs exposed by the system. The response does not necessarily contain summaries for *all* job specs exposed by the system. This is because pagination and client permissions may hide job specs. If further pages of job specs are available, links shall be set to contain hrefs which the client may use to fetch more specs.The server may reorder job spec summaries based on its configuration or knowledge about the user. If a client sets a query string, the server will respond appropriately; however, the same rules apply.",
+        "operationId" : "fetchJobSpecSummaries",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "description" : "The page number (0-indexed)",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }, {
+          "name" : "page-size",
+          "in" : "query",
+          "description" : "The number of entries a response page should contain.",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }, {
+          "name" : "query",
+          "in" : "query",
+          "description" : "Client query string",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Job summaries returned",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/APIJobSpecSummaryCollection"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/specs/{job-spec-id}" : {
+      "get" : {
+        "summary" : "Get a a job spec.",
+        "description" : "If found, returns a job spec. A job spec describes declaratively what a job needs in order to run.",
+        "operationId" : "fetchJobSpecDetailsById",
+        "parameters" : [ {
+          "name" : "job-spec-id",
+          "in" : "path",
+          "description" : "The job spec's ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Job specification found and returned",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/APIJobSpec"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The job specification cannot be found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/APIErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/users/current" : {
+      "get" : {
+        "summary" : "Get the current user",
+        "description" : "Returns the current user that Jobson believes is calling the API. This entrypoint *always* returns *something*. If authentication is disabled (e.g. guest auth is enabled) then the client's ID is handled as the guest username (usually, 'guest'). All other auth types have an associated username that jobson will extract and return via this entrypoint",
+        "operationId" : "fetchCurrentUserDetails",
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/APIUserDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1" : {
+      "get" : {
+        "operationId" : "get_1",
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/APIV1RootResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "APIRestLink" : {
+        "type" : "object",
+        "properties" : {
+          "href" : {
+            "type" : "string",
+            "description" : "The link's URL",
+            "format" : "uri"
+          }
+        },
+        "description" : "A related resource link"
+      },
+      "APIRootResponse" : {
+        "type" : "object",
+        "properties" : {
+          "_links" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/APIRestLink"
+            },
+            "description" : "Links to related resources"
+          }
+        },
+        "description" : "A root response, which describes sub-resources"
+      },
+      "APIJobSpec" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "Human-readable name of the job spec"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "Human-readable description of the job spec"
+          },
+          "expectedInputs" : {
+            "type" : "array",
+            "description" : "The inputs clients must provide to spawn to create a job from this spec",
+            "items" : {
+              "$ref" : "#/components/schemas/JobExpectedInputObject"
+            }
+          }
+        },
+        "description" : "A job spec's details"
+      },
+      "ColumnSchema" : {
+        "required" : [ "description", "id", "name", "type" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "The ID of the column",
+            "example" : "TransitId"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "The name of the column",
+            "example" : "Transit ID"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "A description of the column",
+            "example" : "The Transit ID of a detector transit"
+          },
+          "type" : {
+            "type" : "string",
+            "description" : "A string representing the column's data type. Valid type primitives are 'string' 'int', and 'decimal'. Arrays are represented by surrounding a type with brackets; for example '[int]'. An array is also a type, so nesting is permitted. Therefore, '[[string]]' would also a valid type identifier"
+          }
+        },
+        "description" : "Schema of a column within an sql table"
+      },
+      "F32ExpectedInput" : {
+        "required" : [ "description", "id", "name" ],
+        "type" : "object",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/JobExpectedInputObject"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "default" : {
+              "type" : "string"
+            }
+          }
+        } ]
+      },
+      "F64ExpectedInput" : {
+        "required" : [ "description", "id", "name" ],
+        "type" : "object",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/JobExpectedInputObject"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "default" : {
+              "type" : "string"
+            }
+          }
+        } ]
+      },
+      "FileArrayExpectedInput" : {
+        "required" : [ "description", "id", "name" ],
+        "type" : "object",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/JobExpectedInputObject"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "default" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/FileInput"
+              }
+            }
+          }
+        } ]
+      },
+      "FileExpectedInput" : {
+        "required" : [ "description", "id", "name" ],
+        "type" : "object",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/JobExpectedInputObject"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "default" : {
+              "$ref" : "#/components/schemas/FileInput"
+            }
+          }
+        } ]
+      },
+      "FileInput" : {
+        "required" : [ "data", "filename" ],
+        "type" : "object",
+        "properties" : {
+          "filename" : {
+            "type" : "string"
+          },
+          "data" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "format" : "byte"
+            }
+          }
+        }
+      },
+      "I32ExpectedInput" : {
+        "required" : [ "description", "id", "name" ],
+        "type" : "object",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/JobExpectedInputObject"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "default" : {
+              "type" : "string"
+            }
+          }
+        } ]
+      },
+      "I64ExpectedInput" : {
+        "required" : [ "description", "id", "name" ],
+        "type" : "object",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/JobExpectedInputObject"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "default" : {
+              "type" : "string"
+            }
+          }
+        } ]
+      },
+      "JobExpectedInputObject" : {
+        "required" : [ "description", "id", "name", "type" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "default" : {
+            "type" : "object"
+          },
+          "type" : {
+            "type" : "string"
+          }
+        },
+        "description" : "The schema of a job input",
+        "discriminator" : {
+          "propertyName" : "type"
+        }
+      },
+      "SQLExpectedInput" : {
+        "required" : [ "description", "id", "name", "tables" ],
+        "type" : "object",
+        "description" : "Schema for an input that requires clients to construct an SQL query",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/JobExpectedInputObject"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "tables" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/TableSchema"
+              }
+            },
+            "default" : {
+              "type" : "string"
+            }
+          }
+        } ]
+      },
+      "SelectExpectedInput" : {
+        "required" : [ "description", "id", "name", "options" ],
+        "type" : "object",
+        "description" : "Schema for an input that requires clients to select a single option from a set of options",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/JobExpectedInputObject"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "options" : {
+              "type" : "array",
+              "description" : "Schema of options the client must select from",
+              "items" : {
+                "$ref" : "#/components/schemas/SelectOption"
+              }
+            },
+            "default" : {
+              "type" : "string"
+            }
+          }
+        } ]
+      },
+      "SelectOption" : {
+        "required" : [ "id", "name" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "The ID of the schema",
+            "example" : "json"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "The display name for the option",
+            "example" : "JSON"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "A description of the option.",
+            "example" : "JavaScript Object Notation (JSON) is a plaintext format for representing objects, arrays, and primitive values."
+          }
+        },
+        "description" : "An input schema for an option. An option is one of the available choices exposed by an options schema."
+      },
+      "StringArrayExpectedInput" : {
+        "required" : [ "description", "id", "name" ],
+        "type" : "object",
+        "description" : "Schema for an input that requires clients to provide multiple values",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/JobExpectedInputObject"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "default" : {
+              "type" : "array",
+              "items" : {
+                "type" : "string"
+              }
+            }
+          }
+        } ]
+      },
+      "StringExpectedInput" : {
+        "required" : [ "description", "id", "name" ],
+        "type" : "object",
+        "description" : "Schema for an input that requires clients to provide a single string.",
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/JobExpectedInputObject"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "default" : {
+              "type" : "string"
+            }
+          }
+        } ]
+      },
+      "TableSchema" : {
+        "required" : [ "columns", "description", "id", "name" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "The ID of the table",
+            "example" : "PreprocessedTransits"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "The name of the table",
+            "example" : "Preprocessed Transits"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "A description of the table",
+            "example" : "Preprocessed Transits for Segment 1 and 0"
+          },
+          "columns" : {
+            "type" : "array",
+            "description" : "Columns exposed by the table",
+            "items" : {
+              "$ref" : "#/components/schemas/ColumnSchema"
+            }
+          }
+        },
+        "description" : "Schema of an sql table exposed by an sql expected input"
+      },
+      "JsonNode" : {
+        "type" : "object",
+        "properties" : {
+          "float" : {
+            "type" : "boolean"
+          },
+          "nodeType" : {
+            "type" : "string",
+            "enum" : [ "ARRAY", "BINARY", "BOOLEAN", "MISSING", "NULL", "NUMBER", "OBJECT", "POJO", "STRING" ]
+          },
+          "number" : {
+            "type" : "boolean"
+          },
+          "valueNode" : {
+            "type" : "boolean"
+          },
+          "containerNode" : {
+            "type" : "boolean"
+          },
+          "missingNode" : {
+            "type" : "boolean"
+          },
+          "object" : {
+            "type" : "boolean"
+          },
+          "pojo" : {
+            "type" : "boolean"
+          },
+          "integralNumber" : {
+            "type" : "boolean"
+          },
+          "floatingPointNumber" : {
+            "type" : "boolean"
+          },
+          "short" : {
+            "type" : "boolean"
+          },
+          "int" : {
+            "type" : "boolean"
+          },
+          "long" : {
+            "type" : "boolean"
+          },
+          "double" : {
+            "type" : "boolean"
+          },
+          "bigDecimal" : {
+            "type" : "boolean"
+          },
+          "bigInteger" : {
+            "type" : "boolean"
+          },
+          "textual" : {
+            "type" : "boolean"
+          },
+          "boolean" : {
+            "type" : "boolean"
+          },
+          "binary" : {
+            "type" : "boolean"
+          },
+          "array" : {
+            "type" : "boolean"
+          },
+          "null" : {
+            "type" : "boolean"
+          }
+        },
+        "description" : "Inputs for the job"
+      },
+      "APIJobOutput" : {
+        "required" : [ "href", "id", "mimeType" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "sizeInBytes" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "href" : {
+            "type" : "string"
+          },
+          "mimeType" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "metadata" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "string"
+            }
+          }
+        },
+        "description" : "Details about an output produced by a job"
+      },
+      "APIJobOutputCollection" : {
+        "type" : "object",
+        "properties" : {
+          "entries" : {
+            "type" : "array",
+            "description" : "The entries returned",
+            "items" : {
+              "$ref" : "#/components/schemas/APIJobOutput"
+            }
+          }
+        },
+        "description" : "Response to a request for job summaries"
+      },
+      "APIJobDetails" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "A name for the job"
+          },
+          "owner" : {
+            "type" : "string"
+          },
+          "timestamps" : {
+            "type" : "array",
+            "description" : "Timestamps indicating when job status changes occurred",
+            "items" : {
+              "$ref" : "#/components/schemas/JobTimestamp"
+            }
+          },
+          "_links" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/APIRestLink"
+            },
+            "description" : "Links to related resources and actions"
+          }
+        },
+        "description" : "Details of a job on the system"
+      },
+      "JobTimestamp" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "description" : "The status of a job",
+            "enum" : [ "SUBMITTED", "RUNNING", "ABORTED", "FATAL_ERROR", "FINISHED" ]
+          },
+          "time" : {
+            "type" : "string",
+            "description" : "When the status change occurred",
+            "format" : "date-time"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "(optional) A message associated with the status change"
+          }
+        },
+        "description" : "Timestamp on a job"
+      },
+      "APIErrorMessage" : {
+        "required" : [ "code", "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string",
+            "description" : "An explanation of the error"
+          },
+          "code" : {
+            "type" : "string",
+            "description" : "The HTTP status code associated with the message."
+          }
+        },
+        "description" : "An error message"
+      },
+      "APIJobCreatedResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "_links" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/APIRestLink"
+            },
+            "description" : "Links to related resources and actions"
+          }
+        },
+        "description" : "Response to a successful job submission request"
+      },
+      "APIJobRequest" : {
+        "required" : [ "inputs", "name", "spec" ],
+        "type" : "object",
+        "properties" : {
+          "spec" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "Human-readable name for the job"
+          },
+          "inputs" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/JsonNode"
+            },
+            "description" : "Inputs for the job"
+          }
+        },
+        "description" : "A job request"
+      },
+      "APIJobDetailsCollection" : {
+        "type" : "object",
+        "properties" : {
+          "entries" : {
+            "type" : "array",
+            "description" : "The entries returned",
+            "items" : {
+              "$ref" : "#/components/schemas/APIJobDetails"
+            }
+          },
+          "_links" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/APIRestLink"
+            },
+            "description" : "Links to related resources and actions"
+          }
+        },
+        "description" : "Response to a request for job summaries"
+      },
+      "APIJobSpecSummary" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "Name of the job spec",
+            "example" : "Echo"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "Human-readable description of the job spec",
+            "example" : "Echoes whatever text is provided via the input"
+          },
+          "_links" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/APIRestLink"
+            },
+            "description" : "Links to related resources and actions"
+          }
+        },
+        "description" : "Summary of a job spec"
+      },
+      "APIJobSpecSummaryCollection" : {
+        "type" : "object",
+        "properties" : {
+          "entries" : {
+            "type" : "array",
+            "description" : "The summaries",
+            "items" : {
+              "$ref" : "#/components/schemas/APIJobSpecSummary"
+            }
+          },
+          "_links" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/APIRestLink"
+            },
+            "description" : "Links to related resources and actions"
+          }
+        },
+        "description" : "A collection of job spec summaries"
+      },
+      "APIUserDetails" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          }
+        },
+        "description" : "Summary information for a user"
+      },
+      "APIV1RootResponse" : {
+        "type" : "object",
+        "properties" : {
+          "_links" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/APIRestLink"
+            },
+            "description" : "Links to related resources and actions"
+          }
+        },
+        "description" : "A root response, which describes sub-resources"
+      }
+    }
+  }
+}
