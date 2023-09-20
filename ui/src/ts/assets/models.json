@@ -1,0 +1,30 @@
+[
+  {
+    "id": "virus_genus",
+    "title": "Viral taxonomy",
+    "short_description": "This model assigns the genus taxon to a viral sequence",
+    "description": "Our pretrained virus taxonomy model has been trained on high quality genomes from the International Committee on Taxonomy of Viruses (ICTV), including an 'other' category, and currently achieves a balanced accuracy of 79.4% with 404 categories. Our model consists of 16 million parameters and 6 convolutional neural network (CNN) layers, and was trained on a data-center GPU for approximately 10 days to achieve convergence. We have taken great care to ensure that our model is both accurate and efficient for generating predictions. To use our webserver, simply upload your genomic sequence in FASTA format using the file upload feature on our website. Our virus taxonomy model will then process your data and generate predictions for the genus taxonomy of your virus based on its genomic sequence. However, it is important to note that our model is not perfect and may occasionally make mistakes. Therefore, we encourage you to interpret the results of your predictions with caution and to seek additional information if necessary.",
+    "codeSnippet": "conda install -c genomenet virusnet\nvirusnet -i example.fasta -o prediction.tsv",
+    "trainingData": "ICTV set",
+    "accuracy": 79.4,
+    "optimized": false,  
+    "authors": ["unpublished"],
+    "categories": ["contigs", "full genomes"],
+    "keywords": ["viral", "taxonomy"],
+    "datasetId": "sporulation_dataset"
+  },
+  {
+    "id": "virus_binary",
+    "title": "Viral classification",
+    "short_description": "This model detect if a sequence is of viral or non-viral origin",
+    "description": "The pretrained model can be used as a first check to determine whether a given sequence or contig is viral or non-viral, helping to filter out non-viral sequences and improve the efficiency and accuracy of downstream analyses (e.g. the model for genus-level taxonomic assignment). The model has been trained to accurately distinguish between viral and non-viral sequences based on their genomic features. To use our webserver, simply upload your sequence in FASTA format using the file upload feature on our website. Our viral classification model will then process your data and generate a binary prediction of whether the sequence is viral or non-viral. We take great care to ensure that our viral classification model is both accurate and efficient, and we are confident that it will be a valuable tool for your research and analysis needs. However, it is important to note that our model is not perfect and may occasionally make mistakes. Therefore, we encourage you to interpret the results of your predictions with caution and to seek additional information if necessary.",
+    "trainingData": "unknown",
+    "accuracy": 85,
+    "optimized": false,
+    "authors": ["unpublished"],
+    "categories": ["contigs", "full genomes", "multi-class"],
+    "codeSnippet": "conda install genomenet virusnet",
+    "keywords": ["viral", "taxonomy"],
+    "datasetId": "sporulation_dataset"
+  }
+]

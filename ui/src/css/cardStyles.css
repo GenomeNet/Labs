@@ -1,0 +1,105 @@
+.ui.card .description {
+    font-size: 1em;
+    line-height: 1.5em;
+    max-height: 250px;
+    overflow-y: auto;
+  }
+
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .ui.button.grey-button {
+    background-color: #E0E1E2;
+    color: #6A6A6B;
+    font-size: 0.8rem; 
+    padding: 8px 12px;
+  }
+
+  .full-width-card {
+    width: 100%;
+    margin-bottom: 2em
+}
+
+.title-button-wrapper {
+  display: flex;
+  align-items: center;  /* Aligns items vertically in the center */
+  justify-content: space-between;  /* Distributes items across the main axis */
+}
+
+.description-wrapper {
+  display: grid;
+  text-align: justify;
+  grid-template-columns: 3fr 1fr;
+  align-items: center;
+  grid-gap: 20px; 
+}
+
+.use-model-wrapper {
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 5px;
+  align-items: flex-start;
+}
+
+.button-description-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.use-model-button {
+  background-color: #E0E1E2;
+  color: #6A6A6B;
+  font-size: 0.8rem; 
+  padding: 8px 12px;
+}
+
+.section-wrapper {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.collapsible-section h3 {
+  margin: 0;
+  text-align: left;
+  margin-top: 20px;
+  padding: 5px;
+  background-color: transparent;
+}
+
+.section-content {
+  padding: 10px;
+}
+
+h3.collapsible-header {
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.collapsible-section + .collapsible-section {
+  margin-top: 15px;
+}
+
+.collapsible-icon {
+  transition: transform 0.3s ease;
+}
+
+.collapsible-icon.opened {
+  transform: rotate(90deg);
+}
+
+.dataset-card {
+  border: 1px solid #e5e5e5;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.use-model-wrapper {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  align-items: flex-start;
+}
