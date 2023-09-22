@@ -122,11 +122,11 @@ export class ModelCardComponent extends React.Component<ModelCardComponentProps,
     const models: Model[] = [];
 
     // Add your JSON filenames here, or dynamically fetch the list from the server
-    const modelFiles = ['../../public/model-cards/example-model-01.json', '../../public/model-cards/example-model-02.json'];
+    const modelFiles = ['../../public/model-cards/virus_genus.json'];
 
     // Fetch and set models
     await Promise.all(modelFiles.map(async (file) => {
-      const response = await fetch(`../../model-cards/${file}`);
+      const response = await fetch(`../../public/model-cards/${file}`);
       const modelData: any = await response.json();
       const model: Model = {
         id: modelData['id'],
