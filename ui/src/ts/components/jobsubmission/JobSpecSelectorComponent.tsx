@@ -96,7 +96,7 @@ export class JobSpecSelectorComponent extends Component<JobSpecSelectorComponent
                         <div className="extra content" style={{ padding: '10px' }}>
                             {this.selectedSpec.modelInfo && (
                                 <a
-                                    href={`#/model-cards/${this.selectedSpec.modelInfo.id}`}
+                                    href={`#/model/${this.selectedSpec.modelInfo.id}`}
                                     target="_blank"
                                     rel="noreferrer"
                                 >
