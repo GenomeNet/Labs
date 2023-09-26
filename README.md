@@ -41,6 +41,9 @@ Start the job submission server
 
 ```
 cd server-job-processing
+
+./install_conda_envs.sh # install conda environments
+
 echo "export PATH=\$PATH:$(pwd)/server-job-processing
 /jobson-nix-1.0.13/bin" >> ~/.bashrc
 
