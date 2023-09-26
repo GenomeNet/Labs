@@ -1,2 +1,4 @@
 jobs/*
 wds/*
+.vscode
+.DS_Store
