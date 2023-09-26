@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import datasets from '../assets/datasets.json';
 import { RouteComponentProps } from 'react-router-dom';
-import models from '../assets/models.json';
 import { Typography, Table, TableRow, TableCell, Button, Card, CardContent } from '@material-ui/core';
-import GetAppIcon from '@material-ui/icons/GetApp';
-
 
 interface DatasetDetailsProps extends RouteComponentProps<{ datasetId: string }> {}
 
@@ -36,7 +33,7 @@ const DatasetDetailsComponent: React.FC<DatasetDetailsProps> = ({ match, history
   // State for foldable sections
   const [showClassDistribution, setShowClassDistribution] = React.useState(true);
   const [showAuthors, toggleAuthorsVisibility] = React.useState(true);
-  const [showAssociatedModels, setShowAssociatedModels] = React.useState(true);
+ // const [showAssociatedModels, setShowAssociatedModels] = React.useState(true);
   const [showDataType, toggleDataTypeVisibility] = useState(false);
   const [showDataFormat, toggleDataFormatVisibility] = useState(false);
   const [showLastUpdated, toggleLastUpdatedVisibility] = useState(false);
@@ -45,7 +42,7 @@ const DatasetDetailsComponent: React.FC<DatasetDetailsProps> = ({ match, history
   const dataset = datasets.find(d => d.id === datasetId);
 
   // Ensure the dataset is found first, then find associated models
-  const associatedModels = dataset ? models.filter(model => model.datasetId === dataset.id) : [];
+  //const associatedModels = dataset ? models.filter(model => model.datasetId === dataset.id) : [];
 
   if (!dataset) {
     return <div>No dataset found</div>;

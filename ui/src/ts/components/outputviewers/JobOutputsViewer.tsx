@@ -174,17 +174,17 @@ export class JobOutputsViewer extends Component<JobOutputsViewerProps, JobOutput
     private renderOutputsUi(): ReactElement<any> {
         return (
             <div>
-		{JobOutputsViewer.renderStdioOutput(
-                    "Prediction",
-                    this.props.api.urlToGetJobStderr(this.props.jobId),
-                    () => this.props.api.fetchJobStderr(this.props.jobId),
-                    () => this.props.api.onJobStderrUpdate(this.props.jobId))}
                 {this.renderFileOutputs()}
                 {JobOutputsViewer.renderStdioOutput(
-                    "Log",
+                    "stdout",
                     this.props.api.urlToGetJobStdout(this.props.jobId),
                     () => this.props.api.fetchJobStdout(this.props.jobId),
                     () => this.props.api.onJobStdoutUpdate(this.props.jobId))}
+                {JobOutputsViewer.renderStdioOutput(
+                    "stderr",
+                    this.props.api.urlToGetJobStderr(this.props.jobId),
+                    () => this.props.api.fetchJobStderr(this.props.jobId),
+                    () => this.props.api.onJobStderrUpdate(this.props.jobId))}
             </div>
         );
     }
@@ -200,7 +200,7 @@ export class JobOutputsViewer extends Component<JobOutputsViewerProps, JobOutput
             (jobOutput.metadata && jobOutput.metadata.embed) ?
                 <embed className="ui image" src={this.props.api.buildAPIPathTo(jobOutput.href)}/> :
                 null;
-    
+
         return JobOutputsViewer.renderJobOutput({
             title: jobOutput.name || jobOutput.id,
             description: jobOutput.description || null,
@@ -208,6 +208,4 @@ export class JobOutputsViewer extends Component<JobOutputsViewerProps, JobOutput
             viewer: viewer,
         });
     }
-
-  
 }

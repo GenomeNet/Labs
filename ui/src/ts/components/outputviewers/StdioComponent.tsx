@@ -174,7 +174,7 @@ export class StdioComponent extends Component<StdioComponentProps, StdioComponen
         return (
             <div>
                 <div className="ui icon input">
-                    <input placeholder="grep"
+                    <input placeholder="Seach"
                            value={this.state.grepFilter}
                            onChange={this.onGrepFilterChanged.bind(this)}/>
                     <i className="search icon"/>

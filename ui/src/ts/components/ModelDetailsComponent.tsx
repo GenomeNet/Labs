@@ -5,11 +5,6 @@ import { RouteComponentProps } from "react-router-dom";
 import { Model, Log } from "./ModelCardComponent";
 import TrainingCurve from './TrainingCurve';
 import "../../css/ModelDetails.css";
-import Tippy from '@tippyjs/react';
-import 'tippy.js/dist/tippy.css';  // If you want default Tippy styling
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
-
 
 interface ModelDetailsProps extends RouteComponentProps<{ modelId: string }> { }
 
@@ -26,7 +21,7 @@ class ModelDetailsComponent extends React.Component<ModelDetailsProps, ModelDeta
   async componentDidMount() {
     const modelId = this.props.match.params.modelId;
     try {
-      const response = await fetch(`../../public/model-cards/${modelId}.json`);
+      const response = await fetch(`/public/model-cards/${modelId}.json`);
       if (response.ok) {
         const modelData = await response.json();
         this.setState({ model: modelData });
@@ -53,25 +48,41 @@ class ModelDetailsComponent extends React.Component<ModelDetailsProps, ModelDeta
 
     return (
       <div>
-
-        <div className="flex items-center">
-          <a
-            href={`/${model.institute}`}
-            className="institute-font headline-font text-gray-400 hover:text-blue-600 font-semibold"
-          >
-            {model.institute}
-          </a>
-          <div className="mx-0.5 text-gray-300 font-mono font-semibold headline-font">
-            /
-          </div>
-          <p
-            className="break-words font-mono font-semibold hover:text-blue-600 headline-font"
-          >
-            {model.id}
-          </p>
-        </div>
-
+     
         <div className="ui message" style={{ backgroundColor: '#fff' }}>
+
+        <div>
+  <div className="flex items-center">
+    <span
+      className="institute-font headline-font text-gray-400 hover:text-blue-600 font-semibold"
+    >
+      Model card: 
+    </span>  <div style={{ width: '5px' }}></div>
+   
+    <span
+      className="break-words font-mono font-semibold hover:text-blue-600 headline-font">
+      {model.institute_short}/{model.id}
+    </span>
+  </div>
+
+  <p className="font-normal">
+  <strong> Submitted by:</strong> {model.institute}
+  </p>
+
+  <div>
+  <a href={model.anaconda_url} target="_blank" rel="noopener noreferrer">
+    <img src={`${model.anaconda_url}/badges/version.svg`} alt="Anaconda Version" style={{ marginRight: '5px' }} />
+  </a>
+  <a href={model.anaconda_url} target="_blank" rel="noopener noreferrer">
+    <img src={`${model.anaconda_url}/badges/downloads.svg`} alt="Anaconda Downloads" style={{ marginRight: '5px' }} />
+  </a>
+  <a href={model.anaconda_url} target="_blank" rel="noopener noreferrer">
+    <img src={`${model.anaconda_url}/badges/latest_release_date.svg`} alt="Anaconda Latest Release Date" />
+  </a>
+</div>
+
+
+</div>
 
           <div className="model-details-container">
             <div className="model-details-content">
@@ -79,6 +90,7 @@ class ModelDetailsComponent extends React.Component<ModelDetailsProps, ModelDeta
 
                 {/* Model Description */}
                 <div className="model-details-section">
+          
                   <h3>Model Description</h3>
                   <p>{model.description}</p>
                 </div>
@@ -118,14 +130,11 @@ class ModelDetailsComponent extends React.Component<ModelDetailsProps, ModelDeta
                   <h3>Architecture</h3>
                   <table className="model-details-table">
                     <tbody>
-                    <tr>
-                        <td><strong>Solver</strong><Tippy content="In deep learning, a solver is an algorithm that updates the model's weights by minimizing the loss function. Common solvers include gradient descent variants.">
-    <FontAwesomeIcon icon={faQuestionCircle}/>
-</Tippy></td>
+                      <tr>
+                        <td><strong>Solver</strong></td>
                         <td>{model.solver}</td>
                       </tr>
 
-                     
                       <tr>
                         <td><strong>Learning rate</strong></td>
                         <td>{model.learning_rate}</td>
@@ -146,17 +155,18 @@ class ModelDetailsComponent extends React.Component<ModelDetailsProps, ModelDeta
 
               {/* Plots on the right */}
               <div className="model-plots">
+             
                 <div className="plot-box">
                   <h3>Training Curve - Loss</h3>
-                  <TrainingCurve validationData={val_loss} trainingData={loss} xAxisLabel="Epochs" 
-    yAxisLabel="Loss"  />
+                  <TrainingCurve validationData={val_loss} trainingData={loss} xAxisLabel="Epochs"
+                    yAxisLabel="Loss" />
                   <p className="figure-description">Figure 1: Training curve showcasing the model's loss over training time. Curves smoothed using exponential smoothing (alpha = 0.2)</p>
 
                 </div>
                 <div className="plot-box">
                   <h3>Training Curve - Accuracy</h3>
-                  <TrainingCurve validationData={val_acc} trainingData={acc} xAxisLabel="Epochs" 
-    yAxisLabel="Accuracy" />
+                  <TrainingCurve validationData={val_acc} trainingData={acc} xAxisLabel="Epochs"
+                    yAxisLabel="Accuracy" />
                   <p className="figure-description">Figure 2: Training curve showcasing the model's accuracy over training time. Curves smoothed using exponential smoothing (alpha = 0.2)</p>
                 </div>
               </div>

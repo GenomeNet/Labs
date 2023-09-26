@@ -72,7 +72,6 @@ export class EditingJobRequestState extends Component<EditingJobRequestStateProp
     public render(): ReactElement<any> {
         const setIsSubmitEnabled = this.setIsSubmitEnabled.bind(this);
 
-        console.log("Preselected Spec Id in EditingJobRequestState:", this.props.preselectedSpecId);
 
         return (
             <div>

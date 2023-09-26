@@ -33,6 +33,10 @@ import { DatasetCardComponent } from "./DatasetCardComponent";
 import DatasetDetailsComponent from './DatasetDetailsComponent';
 import { PublicationPage } from "./PublicationPage";
 import ModelUploadComponent from "./ModelUploadComponent";
+import DatasetUploadComponent from "./UploadDatasetComponent";
+
+import { TestComponent } from './TestComponent';
+
 
 export interface AppComponentProps {
 }
@@ -204,6 +208,7 @@ The GenomeNet project is a BMBF funded joint research enterprise of the Helmholt
             <main className="ui container" style={{marginBottom: "1em"}}>
                 <Switch>
                     <Route path="/upload-model" render={props => <ModelUploadComponent />} />
+                    <Route path="/upload-dataset" render={props => <DatasetUploadComponent />} />
                     <Route path="/submit/:preselectedSpecId?"render={props => {const preselectedSpecId = props.match.params.preselectedSpecId;return <SubmitJobComponent api={this.state.api} preselectedSpecId={preselectedSpecId} routeProps={props}/>}}/>
                     <Route path="/publications" render={props => <PublicationPage />} />
                     <Route path="/model/:modelId" render={props => <ModelDetailsComponent {...props}/>} />
@@ -211,6 +216,7 @@ The GenomeNet project is a BMBF funded joint research enterprise of the Helmholt
                     <Route path="/dataset/:datasetId" render={props => <DatasetDetailsComponent {...props}/>} />
                     <Route path="/dataset" render={props => <DatasetCardComponent api={this.state.api} routeProps={props}/>}/>
                     <Route path="/jobs/:id" render={props => <JobDetailsComponent params={props.match.params} api={this.state.api} routeProps={props}/>}/>
+                    <Route path="/test" component={TestComponent} />
                     <Redirect from={"/"} to={"/submit"}/>
                 </Switch>
             </main>

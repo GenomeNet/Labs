@@ -21,17 +21,22 @@ export interface Log {
 
 export interface Model {
   id: string;
+  name: string;
+  anaconda_url: string;
   cm_dir: string[];
   categories: string[];
+  input_type: string[];
   keywords: string[];
   logs: Log[];
   solver: string[];
   institute: string[];
+  institute_short: string[];
   learning_rate: string;
   number_model_params: number;
   maxlen: number;
   description: string;
 }
+
 interface ModelCardProps {
   model: Model;
 }
@@ -67,9 +72,14 @@ const ModelCard: React.FC<ModelCardProps> = ({ model }) => {
   return (
     <div className="ui card model-card-container" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
       <div className="content">
-        <div className="header">{model.id}</div>
+
+      <span
+      className="break-words font-mono font-semibold hover:text-blue-600 headline-font">
+      {model.institute_short}/{model.id}
+    </span>
+
         <div className="description card-text">
-          <p>{model.cm_dir}</p>
+          <p>{model.name}</p>
 
           {model.categories && (
             <p><span style={{ fontWeight: 'bold' }}>Categories:</span>  {model.categories.join(", ")}</p>
@@ -122,14 +132,17 @@ export class ModelCardComponent extends React.Component<ModelCardComponentProps,
     const models: Model[] = [];
 
     // Add your JSON filenames here, or dynamically fetch the list from the server
-    const modelFiles = ['../../public/model-cards/virus_genus.json'];
+    const modelFiles = ['../../public/model-cards/VirusNet.json', '../../public/model-cards/VirusNet-gpu.json'];
 
     // Fetch and set models
     await Promise.all(modelFiles.map(async (file) => {
-      const response = await fetch(`../../public/model-cards/${file}`);
+      const response = await fetch(`/public/model-cards/${file}`);
       const modelData: any = await response.json();
       const model: Model = {
         id: modelData['id'],
+        name: modelData['name'],
+        input_type: modelData['input_type'],
+        anaconda_url: modelData['anaconda_url'],
         cm_dir: modelData['cm_dir'],
         categories: modelData['categories'],
         keywords: modelData['keywords'],
@@ -139,6 +152,7 @@ export class ModelCardComponent extends React.Component<ModelCardComponentProps,
         number_model_params: modelData['number_model_params'],
         maxlen: modelData['maxlen'],
         institute: modelData['institute'],
+        institute_short: modelData['institute_short'],
         description: modelData['description']
       };
       models.push(model);
@@ -191,7 +205,6 @@ export class ModelCardComponent extends React.Component<ModelCardComponentProps,
       <div>
         <h2>Overview of available models</h2>
         <p>Welcome to our model library, your central hub for all available pre-trained deep learning models. Each of these models has been carefully curated and optimized to serve a variety of use cases, spanning across genomics, bioinformatics, and computational biology. Each model is accompanied by detailed information, including its architecture, training data, performance metrics, and application use cases. These details will guide you in understanding each model's strengths and potential applications, ensuring that you choose the most appropriate tool for your project.</p>
-        <p>To assist you in navigating through our diverse collection, we've implemented a handy filtering feature. Click on the tags below to filter models by their associated properties:</p>
 
         <div style={{ marginBottom: "2em" }}>
           {uniqueKeywords.map((keyword, index) => (
@@ -230,15 +243,15 @@ export class ModelCardComponent extends React.Component<ModelCardComponentProps,
             }}
           >
             <div className="content">
-              <div className="header" style={{ color: '#000' }}>Submit our model</div>
+              <div className="header" style={{ color: '#000' }}>Submit a model</div>
               <div className="description card-text" style={{ color: '#000' }}>
-                <p>Would you like to add your own model? We're currently developing a feature that allows users to upload their own models. In the meantime you can contact us using out contact infomration at the "Research" page</p>
+                <p>Follow these steps to submit your pre-trianed model.</p>
               </div>
             </div>
             <div className="extra content" style={{ padding: '10px' }}>
 
               <a href="#/upload-model">
-                <button className="ui button" style={{ width: '100%', color: 'white', backgroundColor: 'green' }}>Upload Model</button>
+                <button className="ui button" style={{ width: '100%', color: 'white', backgroundColor: 'green' }}>Submit Model</button>
               </a>
             </div>
           </div>

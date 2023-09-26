@@ -56,7 +56,7 @@ const DatasetCard: React.FC<DatasetCardProps> = ({ dataset }) => {
   };
 
 
-  const datasetLink = `/dataset-cards/${dataset.id}`;
+  const datasetLink = `/dataset/${dataset.id}`;
 
   return (
     <div className={`ui card dataset-card-container full-width-card`} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
@@ -154,7 +154,6 @@ export class DatasetCardComponent extends React.Component<DatasetCardComponentPr
       <div>
         <h2>Overview of available datasets</h2>
         <p>Welcome to our dataset library, your central hub for all available pre-trained deep learning datasets. Each of these datasets has been carefully curated and optimized to serve a variety of use cases, spanning across genomics, bioinformatics, and computational biology. Each dataset is accompanied by detailed information, including its architecture, training data, performance metrics, and application use cases. These details will guide you in understanding each dataset's strengths and potential applications, ensuring that you choose the most appropriate tool for your project.</p>
-        <p>To assist you in navigating through our diverse collection, we've implemented a handy filtering feature. Click on the tags below to filter datasets by their associated properties:</p>
 
         <div style={{ marginBottom: "2em" }}>
           {uniqueKeywords.map((keyword, index) => (
@@ -195,7 +194,7 @@ export class DatasetCardComponent extends React.Component<DatasetCardComponentPr
             <div className="content">
               <div className="header" style={{ color: '#000' }}>Upload a Dataset</div>
               <div className="description card-text" style={{ color: '#000' }}>
-                <p>Would you like to add your own dataset? We're currently developing a feature that allows users to upload their own datasets. In the meantime you can contact us using out contact infomration at the "Research" page</p>
+                <p>Would you like to add your own dataset?</p>
               </div>
             </div>
             <div className="extra content" style={{ padding: '10px' }}>
