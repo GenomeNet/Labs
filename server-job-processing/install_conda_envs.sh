@@ -3,14 +3,22 @@
 # Initialize Conda
 eval "$(conda shell.bash hook)"
 
-echo "Creating new Conda environment: genomenet_virusnet"
-conda create -n genomenet_virusnet -y
-conda activate genomenet_virusnet
-conda install -c genomenet virusnet -y
-conda deactivate
+echo "Install Mamba"
+conda install mamba -c conda-forge -y
 
-echo "Creating new Conda environment: genomenet_virusnet_gpu"
-conda create -n genomenet_virusnet_gpu -y
-conda activate genomenet_virusnet_gpu
-conda install -c genomenet virusnet-gpu -y
-conda deactivate
+# Declare an associative array with environment names as keys and packages as values
+declare -A environments
+environments=(
+    ["genomenet_virusnet"]="virusnet"
+    ["genomenet_virusnet_gpu"]="virusnet-gpu"
+    ["imputation"]="imputation"
+)
+
+# Loop through the associative array and create environments and install packages
+for env in "${!environments[@]}"; do
+    echo "Creating new Conda environment: $env"
+    conda create -n "$env" -y
+    conda activate "$env"
+    mamba install -c genomenet -c conda-forge "${environments[$env]}" -y
+    conda deactivate
+done
