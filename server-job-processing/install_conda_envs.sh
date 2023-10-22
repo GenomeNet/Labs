@@ -12,7 +12,8 @@ environments=(
     ["genomenet_virusnet"]="virusnet"
     ["genomenet_virusnet_gpu"]="virusnet-gpu"
     ["genomenet_imputation"]="imputation"
-    ["genomenet_imputation_gpu"]="imputation-gpu"
+    ["genomenet_interpretation"]="interpretation"
+    ["genomenet_interpretation-gpu"]="interpretation-gpu"
 )
 
 # Loop through the associative array and create environments and install packages
