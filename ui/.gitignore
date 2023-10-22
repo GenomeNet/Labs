@@ -10,7 +10,7 @@ build/
 *.tsbuildinfo
 
 # Webpack
-webpack.*.js
+#ywebpack.*.js
 
 # IDE and editor specific files
 *.idea/
