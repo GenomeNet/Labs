@@ -1,0 +1,36 @@
+
+name: Interpretation
+description: Exporting the hidden states of various deepG models for further interpretation
+
+expectedInputs:
+
+- id: finput
+  type: string[]
+  name: FASTA file at the genome, contig or scaffold level.
+
+execution:
+  application: bash
+  arguments:
+  - run.sh
+  - "${toFile(toJSON(inputs.finput))}"
+  dependencies:
+  - source: run.sh
+    target: run.sh
+  - source: ../../tools/reformat_json.py
+    target: reformat_json.py
+
+expectedOutputs:
+- id: outputFile1
+  path: states_genus.csv
+  name: States file of the virusNet model (genus level prediction)
+  description: This file contains the hidden states
+
+- id: outputFile2
+  path: states_genomenet.csv
+  name: States file of the GenomeNet  model
+  description: This file contains the hidden states
+
+- id: outputFile3
+  path: states_crispr.csv
+  name: States file of the CRISPR-array prediciton  model
+  description: This file contains the hidden states
