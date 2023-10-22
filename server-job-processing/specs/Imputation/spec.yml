@@ -1,0 +1,26 @@
+
+name: Imputation
+description: Replacement of ambiguous nucleotides
+
+expectedInputs:
+
+- id: finput
+  type: string[]
+  name: FASTA file at the genome, contig or scaffold level.
+
+execution:
+  application: bash
+  arguments:
+  - run.sh
+  - "${toFile(toJSON(inputs.finput))}"
+  dependencies:
+  - source: run.sh
+    target: run.sh
+  - source: ../../tools/reformat_json.py
+    target: reformat_json.py
+
+expectedOutputs:
+- id: outputFile
+  path: imputed.fasta
+  name: Imputed file
+  description: This file contains the imputed fasta file with replaced nucleotides
