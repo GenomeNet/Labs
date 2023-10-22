@@ -24,3 +24,14 @@ for env in "${!environments[@]}"; do
     mamba install -c genomenet -c conda-forge "${environments[$env]}" -y
     conda deactivate
 done
+
+# Download models for interpretation tool
+mkdir -p models
+cd models
+wget https://f000.backblazeb2.com/file/genomenet/models/virus_genus_2023-01-23.hdf5
+wget https://f000.backblazeb2.com/file/bioinf/crispr_binary_model.h5
+wget https://f000.backblazeb2.com/file/bioinf/genomenet_intermediate.h5
+cd ..
+
+
+
