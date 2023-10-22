@@ -24,3 +24,11 @@ for env in "${!environments[@]}"; do
     mamba install -c genomenet -c conda-forge "${environments[$env]}" -y
     conda deactivate
 done
+
+# Download models for interpretation tool
+conda activate genomenet_interpretation
+interprete download --model all
+conda deactivate
+
+
+
