@@ -24,7 +24,7 @@ def read_json_file(input_path):
 
 def validate_sequence(sequence):
     """Validates that the sequence only contains valid nucleotide characters."""
-    valid_nucleotides = set("ATCG")
+    valid_nucleotides = set("ATCGN")
     if not all(char in valid_nucleotides for char in sequence):
         logging.error("The sequence contains invalid nucleotide characters.")
         exit(1)
