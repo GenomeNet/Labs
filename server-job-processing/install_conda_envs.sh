@@ -11,7 +11,8 @@ declare -A environments
 environments=(
     ["genomenet_virusnet"]="virusnet"
     ["genomenet_virusnet_gpu"]="virusnet-gpu"
-    ["imputation"]="imputation"
+    ["genomenet_imputation"]="imputation"
+    ["genomenet_imputation_gpu"]="imputation-gpu"
 )
 
 # Loop through the associative array and create environments and install packages
