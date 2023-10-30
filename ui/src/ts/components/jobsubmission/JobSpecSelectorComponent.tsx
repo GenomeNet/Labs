@@ -37,7 +37,7 @@ export class JobSpecSelectorComponent extends Component<JobSpecSelectorComponent
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <div>
                         <h2>Hosted Inference API</h2>
-                        <p>Test and evaluate, for free, our 2 publicly accessible deep learning models with fast inference hosted on our GenomeNet infrastructure. For an overview of all available models, please visit our model cards under "Models".</p>
+                        <p>Use our publicly accessible deep learning models with fast inference hosted on our GenomeNet infrastructure.</p>
                     </div>
                 </div>
 
@@ -62,8 +62,13 @@ export class JobSpecSelectorComponent extends Component<JobSpecSelectorComponent
                     
                    <p>Description: {this.getSelectedSpecDescription()}</p>
 
-                   <a href={`#/model/${this.props.selectedSpecId}`} target="_blank" rel="noreferrer">
-                                  Open model card  </a>
+
+                {/* Commented out anchor tag */}
+                {/*
+                <a href={`#/model/${this.props.selectedSpecId}`} target="_blank" rel="noreferrer">
+                    Open model card
+                </a>
+                */}
                               
                  
                 </div>

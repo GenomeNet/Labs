@@ -114,7 +114,7 @@ export class NavbarComponent extends React.Component<NavbarComponentProps, Navba
         return (
             <div className="ui secondary pointing menu">
                 <div className="ui container">
-
+                <NavLink to="/#" style={{ textDecoration: 'none', color: 'inherit' }}>
                     <span className="header item" style={{ display: 'flex', alignItems: 'center' }}>
                         <img
                             src="/public/logo.png"
@@ -126,7 +126,7 @@ export class NavbarComponent extends React.Component<NavbarComponentProps, Navba
                             }}
                         />
                         <div style={{ display: 'block' }}>
-                        <span className="genome-net-text">GenomeNet</span>
+                            <span className="genome-net-text">GenomeNet</span>
                             <div
                                 style={{
                                     fontStyle: 'italic',
@@ -138,17 +138,19 @@ export class NavbarComponent extends React.Component<NavbarComponentProps, Navba
                             </div>
                         </div>
                     </span>
-
+                    </NavLink>
                     <NavLink to="/submit" className="item" activeClassName="active">
                         Hosted inference
                     </NavLink>
+                    {/*
+    <NavLink to="/model" className="item" activeClassName="active">
+        Models
+        <div className="number-tag">
+            {this.state.supportedModels}
+        </div>
+    </NavLink>
 
-                    <NavLink to="/model" className="item" activeClassName="active">
-                        Models
-                        <div className="number-tag">
-                            {this.state.supportedModels}
-                        </div>
-                    </NavLink>
+
 
                     <NavLink to="/dataset" className="item" activeClassName="active">
                         Datasets
@@ -156,7 +158,7 @@ export class NavbarComponent extends React.Component<NavbarComponentProps, Navba
                             {this.state.supportedDatasets}
                         </div>
                     </NavLink>
-
+*/}
                 </div>
             </div>
         );
