@@ -1,6 +1,6 @@
 
 name: Interpretation
-description: Exporting the hidden states of various deepG models for further interpretation
+description: Exporting the hidden states of various deepG models for further interpretation (CPU version)
 
 expectedInputs:
 
