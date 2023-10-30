@@ -43,20 +43,20 @@ python3 "$REFORMAT_SCRIPT" --input "$JSON_FILE" --output "$REFORMATTED_FILE" --s
     conda activate "$ENV_NAME"
         
     # Start monitoring GPU in the background
-    monitor_gpu &
-    MONITOR_PID=$!
+    #monitor_gpu &
+    #MONITOR_PID=$!
 
     virusnet -i "$REFORMATTED_FILE" -o "$OUTPUT_FILE"
     echo "Done"
 
     # Stop the GPU monitor
-    kill $MONITOR_PID
+    #kill $MONITOR_PID
     
     # Deactivate the environment
     conda deactivate
     
     # Show the GPU log or do other analysis
-    cat gpu_usage.log
+    #cat gpu_usage.log
 
 } || {
     echo "Reformatting failed, not running inference."
