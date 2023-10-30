@@ -33,9 +33,9 @@ python3 "$REFORMAT_SCRIPT" --input "$JSON_FILE" --output "$REFORMATTED_FILE" --s
     echo "Running inference"
     # Activate the environment and run the tool
     conda activate "$ENV_NAME"
-    interprete run -i "$REFORMATTED_FILE" -o states --batch_size 2048 --model genus --model_folder /home/pmuench/Labs/server-job-processing/models/
-    interprete run -i "$REFORMATTED_FILE" -o states --batch_size 2048 --model crispr --model_folder /home/pmuench/Labs/server-job-processing/models/
-    interprete run -i "$REFORMATTED_FILE" -o states --batch_size 2048 --model genomenet --model_folder /home/pmuench/Labs/server-job-processing/models/
+    interprete run -i "$REFORMATTED_FILE" -o states --batch_size 2048 --model genus --model_folder ../../models/
+    interprete run -i "$REFORMATTED_FILE" -o states --batch_size 2048 --model crispr --model_folder ../../models/
+    interprete run -i "$REFORMATTED_FILE" -o states --batch_size 2048 --model genomenet --model_folder ../../models/
     echo "Done"
     # Optionally, deactivate the environment
     conda deactivate
