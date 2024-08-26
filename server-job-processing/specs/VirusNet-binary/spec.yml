@@ -1,0 +1,38 @@
+
+name: VirusNet
+description: Prediction of viral sequences (viral vs. non-viral)
+
+expectedInputs:
+
+- id: finput
+  type: string[]
+  name: FASTA file at the genome, contig or scaffold level.
+
+execution:
+  application: bash
+  arguments:
+  - run.sh
+  - "${toFile(toJSON(inputs.finput))}"
+  dependencies:
+  - source: run.sh
+    target: run.sh
+  - source: ../../tools/reformat_json.py
+    target: reformat_json.py
+
+expectedOutputs:
+- id: outputFileSummary
+  path: output/binary_results_summarized.csv
+  name: Prediction output (Summary)
+  description: This file contains the aggregated probability for each FASTA entry
+- id: outputFileResults
+  path: output/binary_results.csv
+  name: Prediction output
+  description: This file contains the probability for each FASTA entry
+- id: outputFilePDF
+  path: output/binary_results.pdf
+  name: Plot of prediction propability 
+  description: This pdf file shows the prediction propability over the sequence
+- id: outputFileFASTA
+  path: output/viral_contigs.fasta
+  name: FASTA file of viruses
+  description: This FASTA file contains only the FASTA entries that are predicted as viral

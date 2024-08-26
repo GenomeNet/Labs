@@ -1,5 +1,6 @@
-name: VirusNet-gpu
-description: Genus level prediction of viral sequences (GPU version)
+
+name: VirusNet
+description: Genus level prediction of viral sequences
 
 expectedInputs:
 
@@ -20,6 +21,10 @@ execution:
 
 expectedOutputs:
 - id: outputFile
-  path: prediction.tsv
+  path: output/genus_output.csv
   name: Prediction output
+  description: This file contains the probability for each FASTA entry of each sliding window
+- id: outputFileSummary
+  path: output/genus_summary_output.csv
+  name: Summary of prediction output
   description: This file contains the probability for each FASTA entry

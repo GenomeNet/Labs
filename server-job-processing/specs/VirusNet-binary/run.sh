@@ -20,7 +20,7 @@ eval "$(conda shell.bash hook)"
 INPUT_FILE="$1"
 JSON_FILE="input.json"
 REFORMATTED_FILE="input_reformatted.fasta"
-OUTPUT_FILE="prediction.tsv"
+OUTPUT_FOLDER="output"
 ENV_NAME="genomenet_virusnet"
 REFORMAT_SCRIPT="../../tools/reformat_json.py"
 
@@ -36,7 +36,7 @@ python3 "$REFORMAT_SCRIPT" --input "$JSON_FILE" --output "$REFORMATTED_FILE" --s
     # Activate the environment and run the tool
     conda activate "$ENV_NAME"
     
-    virusnet -i "$REFORMATTED_FILE" -o "$OUTPUT_FILE"
+    virusnet predict --mode binary --input "$REFORMATTED_FILE" -output "$OUTPUT_FOLDER"
     echo "Done"
     
     # Optionally, deactivate the environment
