@@ -36,7 +36,7 @@ python3 "$REFORMAT_SCRIPT" --input "$JSON_FILE" --output "$REFORMATTED_FILE" --s
     # Activate the environment and run the tool
     conda activate "$ENV_NAME"
     
-    bacterianet --input "$REFORMATTED_FILE" --output "$OUTPUT_FOLDER"
+    bacterianet predict --input "$REFORMATTED_FILE" --output "$OUTPUT_FOLDER"
     echo "Done"
     
     # Optionally, deactivate the environment
