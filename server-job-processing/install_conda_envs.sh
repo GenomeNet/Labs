@@ -14,6 +14,7 @@ environments=(
     ["genomenet_imputation"]="imputation"
     ["genomenet_interpretation"]="interpretation"
     ["genomenet_interpretation-gpu"]="interpretation-gpu"
+    ["genomenet_bacterianet"]="bacterianet"
 )
 
 # Loop through the associative array and create environments and install packages
