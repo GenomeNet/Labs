@@ -10,7 +10,6 @@ conda install mamba -c conda-forge -y
 declare -A environments
 environments=(
     ["genomenet_virusnet"]="virusnet"
-    ["genomenet_virusnet_gpu"]="virusnet-gpu"
     ["genomenet_imputation"]="imputation"
     ["genomenet_interpretation"]="interpretation"
     ["genomenet_interpretation-gpu"]="interpretation-gpu"
