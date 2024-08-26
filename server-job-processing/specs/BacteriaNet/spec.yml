@@ -1,0 +1,26 @@
+
+name: BacteriaNet
+description: Prediction of 14 bacterial phenotypes based on DSMZ BacDive data.
+
+expectedInputs:
+
+- id: finput
+  type: string[]
+  name: FASTA file at the genome, contig or scaffold level.
+
+execution:
+  application: bash
+  arguments:
+  - run.sh
+  - "${toFile(toJSON(inputs.finput))}"
+  dependencies:
+  - source: run.sh
+    target: run.sh
+  - source: ../../tools/reformat_json.py
+    target: reformat_json.py
+
+expectedOutputs:
+- id: outputFile
+  path: output/phenotype_pred.csv
+  name: Prediction output
+  description: This file contains the predicted phenotypes
