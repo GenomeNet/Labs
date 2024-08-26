@@ -20,10 +20,10 @@ environments=(
 # Loop through the associative array and create environments and install packages
 for env in "${!environments[@]}"; do
     echo "Creating new Conda environment: $env"
-    conda create -n "$env" -y
-    conda activate "$env"
-    mamba install -c genomenet -c conda-forge "${environments[$env]}" -y
-    conda deactivate
+    mamba create -n "$env" python=3.11 -y
+    mamba activate "$env"
+    mamba install -c genomenet -c anaconda -c conda-forge "${environments[$env]}" -y
+    mamba deactivate
 done
 
 # Download models for interpretation tool
