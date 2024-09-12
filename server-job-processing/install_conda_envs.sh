@@ -18,10 +18,16 @@ environments=(
 
 # Loop through the associative array and create environments and install packages
 for env in "${!environments[@]}"; do
+    echo "Removing existing Conda environment (if it exists): $env"
+    mamba env remove -n "$env" -y
+
     echo "Creating new Conda environment: $env"
     mamba create -n "$env" python=3.11 -y
     mamba activate "$env"
-    mamba install -c genomenet -c anaconda -c conda-forge "${environments[$env]}" -y
+    
+    echo "Installing package in environment $env"
+    mamba install -c genomenet -c anaconda -c conda-forge "${environments[$env]}" -y --force-reinstall
+    
     # Download models for virusnet and bacterianet
     if [[ "$env" == "genomenet_virusnet" ]]; then
         echo "Downloading VirusNet model"
